@@ -2,15 +2,15 @@
 
     window.ui = window.ui || {};
 
-    var RightButton = function () {
+    var LeftButton = function () {
         this.initialize();
     }
-    var p = RightButton.prototype = new createjs.Container();
+    var p = LeftButton.prototype = new createjs.Container();
 
     // RightButton properties
 
-    p.imgPath = 'img/right.PNG';
-    p.buttonRight;
+    p.imgPath = 'img/left.PNG';
+    p.buttonLeft;
 
     p.Container_initialize = p.initialize;
 
@@ -23,7 +23,7 @@
         this.removeAllChildren();
         this.buttonRight = new createjs.Shape();
         this.buttonRight.graphics.beginStroke('white').beginFill('black').drawRect(0,0,57,56);
-        this.addChild(this.buttonRight);
+        this.addChild(this.buttonLeft);
     }
     p.setButtonListeners = function () {
         this.cursor = 'pointer';
@@ -36,5 +36,5 @@
     }
 
 
-    window.ui.RightButton = RightButton;
+    window.ui.LeftButton = LeftButton;
 }());

@@ -66,9 +66,21 @@
 
     }
 
-    p.testing = function() {
-        //this.playGame;
-        alert("Hello");
+    p.addButtonPrevious = function () {
+        var btn, event;
+        btn = new ui.RightButton;
+        btn.on('click',this.goToMenu,this);
+        //btn.regX = btn.width / 2;
+        btn.x = 50;
+        btn.y = 520;
+        btn.setButton();
+        this.addChild(btn);
+
+        var imgPath = 'img/left.PNG';
+        this.buttonLeft = new createjs.Bitmap(imgPath);
+        this.buttonLeft.x = 50;
+        this.buttonLeft.y = 520;
+        this.addChild(this.buttonLeft);
     }
 
     // p.addButton = function () {
@@ -87,13 +99,7 @@
     //     this.addChild(btn);
     // }
 
-    p.addButtonPrevious = function () {
-        var imgPath = 'img/left.PNG';
-        this.buttonLeft = new createjs.Bitmap(imgPath);
-        this.buttonLeft.x = 50;
-        this.buttonLeft.y = 520;
-        this.addChild(this.buttonLeft);
-    }
+
 
     p.addKeyboardInstructions = function () {
         var imgPath = 'img/KeyboardArrows.png';
@@ -158,6 +164,9 @@
     // }
     p.playGame = function (e) {
         this.dispatchEvent(game.GameStateEvents.GAME);
+    }
+    p.goToMenu = function (e) {
+        this.dispatchEvent(game.GameStateEvents.MAIN_MENU)
     }
     p.run = function () {
         //this.titleTxt.alpha = Math.cos(this.count++ * .01) * .4 + 0.6;

@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3badb46a-5d1c-4913-a7ec-e3400d175ade" name="Default" comment="Update in game.JS">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/LeftButton.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RightButton.js" afterPath="$PROJECT_DIR$/RightButton.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/states/GameInstructions.js" afterPath="$PROJECT_DIR$/js/states/GameInstructions.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/middleGame.js" afterPath="$PROJECT_DIR$/middleGame.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -20,8 +24,18 @@
       <file leaf-file-name="middleGame.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/middleGame.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="80" column="29" lean-forward="true" selection-start-line="80" selection-start-column="29" selection-end-line="80" selection-end-column="29" />
+            <state relative-caret-position="405">
+              <caret line="57" column="43" lean-forward="true" selection-start-line="57" selection-start-column="43" selection-end-line="57" selection-end-column="43" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GameMenu.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/states/GameMenu.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="6">
+              <caret line="24" column="25" lean-forward="true" selection-start-line="24" selection-start-column="25" selection-end-line="24" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -40,8 +54,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="351">
-              <caret line="34" column="29" lean-forward="true" selection-start-line="34" selection-start-column="29" selection-end-line="34" selection-end-column="29" />
+            <state relative-caret-position="411">
+              <caret line="29" column="0" lean-forward="true" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
               <folding>
                 <element signature="n#style#0;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
@@ -62,8 +76,18 @@
       <file leaf-file-name="GameInstructions.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/states/GameInstructions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2385">
-              <caret line="159" column="8" lean-forward="false" selection-start-line="159" selection-start-column="8" selection-end-line="159" selection-end-column="8" />
+            <state relative-caret-position="366">
+              <caret line="168" column="58" lean-forward="true" selection-start-line="168" selection-start-column="58" selection-end-line="168" selection-end-column="58" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LeftButton.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/LeftButton.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="14" column="42" lean-forward="true" selection-start-line="14" selection-start-column="42" selection-end-line="14" selection-end-column="42" />
               <folding />
             </state>
           </provider>
@@ -72,11 +96,9 @@
       <file leaf-file-name="RightButton.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/RightButton.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="495">
-              <caret line="35" column="22" lean-forward="false" selection-start-line="35" selection-start-column="22" selection-end-line="35" selection-end-column="22" />
-              <folding>
-                <element signature="e#0#43#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="420">
+              <caret line="34" column="0" lean-forward="true" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -109,11 +131,12 @@
       <list>
         <option value="$PROJECT_DIR$/js/states/GameMenu.js" />
         <option value="$PROJECT_DIR$/state.js" />
-        <option value="$PROJECT_DIR$/RightButton.js" />
-        <option value="$PROJECT_DIR$/js/states/GameInstructions.js" />
         <option value="$PROJECT_DIR$/js/states/Game.js" />
         <option value="$PROJECT_DIR$/js/DivisionLine.js" />
+        <option value="$PROJECT_DIR$/LeftButton.js" />
         <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/RightButton.js" />
+        <option value="$PROJECT_DIR$/js/states/GameInstructions.js" />
         <option value="$PROJECT_DIR$/middleGame.js" />
       </list>
     </option>
@@ -275,7 +298,7 @@
       <option name="presentableId" value="Default" />
       <updated>1501286592935</updated>
       <workItem from="1501286594101" duration="22944000" />
-      <workItem from="1501447120823" duration="788000" />
+      <workItem from="1501447120823" duration="1679000" />
     </task>
     <task id="LOCAL-00001" summary="Update in game.JS">
       <created>1501447408942</created>
@@ -298,11 +321,18 @@
       <option name="project" value="LOCAL" />
       <updated>1501447611569</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Update in game.JS">
+      <created>1501447913023</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1501447913023</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23732000" />
+    <option name="totallyTimeSpent" value="24623000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1932" height="1066" extended-state="0" />
@@ -361,9 +391,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="495">
           <caret line="35" column="22" lean-forward="true" selection-start-line="35" selection-start-column="22" selection-end-line="35" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#43#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -392,24 +420,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/RightButton.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="35" column="22" lean-forward="false" selection-start-line="35" selection-start-column="22" selection-end-line="35" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#43#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/states/GameInstructions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2385">
-          <caret line="159" column="8" lean-forward="false" selection-start-line="159" selection-start-column="8" selection-end-line="159" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -445,10 +455,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/LeftButton.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="14" column="42" lean-forward="true" selection-start-line="14" selection-start-column="42" selection-end-line="14" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RightButton.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="34" column="0" lean-forward="true" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/states/GameMenu.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6">
+          <caret line="24" column="25" lean-forward="true" selection-start-line="24" selection-start-column="25" selection-end-line="24" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/states/GameInstructions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="366">
+          <caret line="168" column="58" lean-forward="true" selection-start-line="168" selection-start-column="58" selection-end-line="168" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="351">
-          <caret line="34" column="29" lean-forward="true" selection-start-line="34" selection-start-column="29" selection-end-line="34" selection-end-column="29" />
+        <state relative-caret-position="411">
+          <caret line="29" column="0" lean-forward="true" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
           <folding>
             <element signature="n#style#0;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
@@ -457,8 +499,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/middleGame.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="80" column="29" lean-forward="true" selection-start-line="80" selection-start-column="29" selection-end-line="80" selection-end-column="29" />
+        <state relative-caret-position="405">
+          <caret line="57" column="43" lean-forward="true" selection-start-line="57" selection-start-column="43" selection-end-line="57" selection-end-column="43" />
           <folding />
         </state>
       </provider>
