@@ -29,6 +29,12 @@
 <script>
     var stage;
     var canvas;
+    var character;
+    var ARROW_KEY_LEFT = 37;
+    var ARROW_KEY_RIGHT = 39;
+    var leftKeyDown = false;
+    var rightKeyDown = false;
+
 
     function init() {
         window.game = window.game || {};
