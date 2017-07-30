@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3badb46a-5d1c-4913-a7ec-e3400d175ade" name="Default" comment="">
+    <list default="true" id="3badb46a-5d1c-4913-a7ec-e3400d175ade" name="Default" comment="Update in game.JS">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/middleGame.js" afterPath="$PROJECT_DIR$/middleGame.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -17,11 +17,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="middleGame.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="middleGame.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/middleGame.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="12" lean-forward="false" selection-start-line="12" selection-start-column="12" selection-end-line="12" selection-end-column="12" />
+            <state relative-caret-position="390">
+              <caret line="80" column="29" lean-forward="true" selection-start-line="80" selection-start-column="29" selection-end-line="80" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -37,11 +37,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="141">
-              <caret line="20" column="22" lean-forward="true" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
+            <state relative-caret-position="351">
+              <caret line="34" column="29" lean-forward="true" selection-start-line="34" selection-start-column="29" selection-end-line="34" selection-end-column="29" />
               <folding>
                 <element signature="n#style#0;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
@@ -84,7 +84,7 @@
       <file leaf-file-name="Game.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/states/Game.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
+            <state relative-caret-position="936">
               <caret line="111" column="16" lean-forward="false" selection-start-line="111" selection-start-column="16" selection-end-line="111" selection-end-column="16" />
               <folding />
             </state>
@@ -111,10 +111,10 @@
         <option value="$PROJECT_DIR$/state.js" />
         <option value="$PROJECT_DIR$/RightButton.js" />
         <option value="$PROJECT_DIR$/js/states/GameInstructions.js" />
-        <option value="$PROJECT_DIR$/middleGame.js" />
         <option value="$PROJECT_DIR$/js/states/Game.js" />
         <option value="$PROJECT_DIR$/js/DivisionLine.js" />
         <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/middleGame.js" />
       </list>
     </option>
   </component>
@@ -275,7 +275,7 @@
       <option name="presentableId" value="Default" />
       <updated>1501286592935</updated>
       <workItem from="1501286594101" duration="22944000" />
-      <workItem from="1501447120823" duration="486000" />
+      <workItem from="1501447120823" duration="788000" />
     </task>
     <task id="LOCAL-00001" summary="Update in game.JS">
       <created>1501447408942</created>
@@ -291,19 +291,25 @@
       <option name="project" value="LOCAL" />
       <updated>1501447546833</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Update in game.JS">
+      <created>1501447611569</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1501447611569</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23430000" />
+    <option name="totallyTimeSpent" value="23732000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1932" height="1066" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24973601" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32903227" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32903227" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -423,22 +429,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/states/Game.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="111" column="16" lean-forward="false" selection-start-line="111" selection-start-column="16" selection-end-line="111" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/middleGame.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="12" lean-forward="false" selection-start-line="12" selection-start-column="12" selection-end-line="12" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/DivisionLine.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
@@ -447,13 +437,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/states/Game.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="936">
+          <caret line="111" column="16" lean-forward="false" selection-start-line="111" selection-start-column="16" selection-end-line="111" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="141">
-          <caret line="20" column="22" lean-forward="true" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
+        <state relative-caret-position="351">
+          <caret line="34" column="29" lean-forward="true" selection-start-line="34" selection-start-column="29" selection-end-line="34" selection-end-column="29" />
           <folding>
             <element signature="n#style#0;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/middleGame.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="80" column="29" lean-forward="true" selection-start-line="80" selection-start-column="29" selection-end-line="80" selection-end-column="29" />
+          <folding />
         </state>
       </provider>
     </entry>

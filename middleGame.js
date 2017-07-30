@@ -62,13 +62,8 @@
         stage.removeChild(this.currentScene);
         this.currentScene = scene;
         this.changeState(game.GameStates.RUN_SCENE);
-        character = new createjs.Shape();
-        character.graphics.beginFill('#000').drawRect(0, 0, 30, 100);
-        character.name = 'myCharacter';
-        character.x = 400;
-        character.y = 450;
-        character.nextX = 400
-        stage.addChild(character);
+
+
     }
     p.gameStateGame = function () {
         var scene = new game.Game();
@@ -77,6 +72,14 @@
         stage.removeChild(this.currentScene);
         this.currentScene = scene;
         this.changeState(game.GameStates.RUN_SCENE);
+
+        character = new createjs.Shape();
+        character.graphics.beginFill('#000').drawRect(0, 0, 30, 100);
+        character.name = 'myCharacter';
+        character.x = 400;
+        character.y = 450;
+        character.nextX = 400
+        stage.addChild(character);
     }
     // p.gameStateGameOver = function () {
     //     var scene = new game.GameOver();
