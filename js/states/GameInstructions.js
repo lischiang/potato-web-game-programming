@@ -31,10 +31,10 @@
         this.addChild(bg);
     }
     p.addTitle = function () {
-        var myText = 'Bill "The Tart" have decided to take a ride in his bike and ' +
+        var myText = 'Bill "The Tart" has decided to take a ride in his bike and ' +
             'suddenly its brakes broke. He needs your help to reach the end ' +
             'of the slope in one piece, so lead him using the keys accordingly… ' +
-            'Bill will  appreciate it…..'
+            'Bill will appreciate it…..'
 
         this.titleTxt = new createjs.Text(myText, '40px Comic Sans MS', '#FFF');
         this.titleTxt.lineWidth = 750;
@@ -45,8 +45,6 @@
         this.addChild(this.titleTxt);
     }
     p.addButtonNext = function () {
-
-
 
         var btn, event;
         btn = new ui.RightButton;

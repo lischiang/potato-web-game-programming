@@ -22,11 +22,14 @@
         stage = new createjs.Stage(canvas);
         createjs.Ticker.setFPS(60);
         createjs.Ticker.on('tick', this.onTick, this);
-        this.changeState(game.GameStates.INSTRUCTIONS);
+        this.changeState(game.GameStates.MAIN_MENU);
     }
     p.changeState = function (state) {
         this.currentGameState = state;
         switch (this.currentGameState) {
+            case game.GameStates.MAIN_MENU:
+                this.currentGameStateFunction = this.gameStateGameMenu;
+                break;
             case game.GameStates.INSTRUCTIONS:
                 this.currentGameStateFunction = this.gameStateInstructions;
                 break;
@@ -43,6 +46,14 @@
     }
     p.onStateEvent = function (e, data) {
         this.changeState(data.state);
+    }
+    p.gameStateGameMenu = function () {
+        var scene = new game.GameMenu();
+        scene.on(game.GameStateEvents.INSTRUCTIONS, this.onStateEvent, this, false, { state: game.GameStates.INSTRUCTIONS });
+        stage.addChild(scene);
+        stage.removeChild(this.currentScene);
+        this.currentScene = scene;
+        this.changeState(game.GameStates.RUN_SCENE);
     }
     p.gameStateInstructions = function () {
         var scene = new game.GameInstructions();

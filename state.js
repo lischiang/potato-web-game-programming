@@ -3,6 +3,7 @@
     window.game = window.game || {};
 
     var GameStates = {
+        MAIN_MENU:0,
         INSTRUCTIONS:5,
         RUN_SCENE:1,
         GAME:10,
@@ -11,6 +12,7 @@
     }
 
     var GameStateEvents = {
+        MAIN_MENU:'main menu event',
         INSTRUCTIONS:'instructions scene',
         GAME_OVER:'game over event',
         MAIN_MENU_SELECT:'game menu select event',
