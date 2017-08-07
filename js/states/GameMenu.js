@@ -25,7 +25,7 @@
         this.addButton();
     }
     p.addBG = function () {
-        var imgPath = 'img/potato_menu.PNG';
+        var imgPath = 'img/potato_menu.png';
         bg = new createjs.Bitmap(imgPath);
         bg.scaleX = 0.95;
         bg.scaleY = 0.95;
