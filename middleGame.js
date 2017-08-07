@@ -39,9 +39,9 @@
             case game.GameStates.RUN_SCENE:
                 this.currentGameStateFunction = this.gameStateRunScene;
                 break;
-            // case game.GameStates.GAME_OVER:
-            //     this.currentGameStateFunction = this.gameStateGameOver;
-            //     break;
+            case game.GameStates.GAME_OVER:
+                this.currentGameStateFunction = this.gameStateGameOver;
+                break;
         }
     }
     p.onStateEvent = function (e, data) {
@@ -63,14 +63,10 @@
         stage.removeChild(this.currentScene);
         this.currentScene = scene;
         this.changeState(game.GameStates.RUN_SCENE);
-
-
     }
     p.gameStateGame = function () {
-
-
         var scene = new game.Game();
-        scene.on(game.GameStateEvents.INSTRUCTIONS, this.onStateEvent, this, false, {state: game.GameStates.INSTRUCTIONS});
+        scene.on(game.GameStateEvents.GAME_OVER, this.onStateEvent, this, false, {state: game.GameStates.GAME_OVER});
         stage.addChild(scene);
         stage.removeChild(this.currentScene);
         this.currentScene = scene;
@@ -94,15 +90,15 @@
 
 
     }
-    // p.gameStateGameOver = function () {
-    //     var scene = new game.GameOver();
-    //     stage.addChild(scene);
-    //     scene.on(game.GameStateEvents.MAIN_MENU, this.onStateEvent, this, false, {state:game.GameStates.MAIN_MENU});
-    //     scene.on(game.GameStateEvents.GAME, this.onStateEvent, this, false, {state:game.GameStates.GAME});
-    //     stage.removeChild(this.currentScene);
-    //     this.currentScene = scene;
-    //     this.changeState(game.GameStates.RUN_SCENE);
-    // }
+    p.gameStateGameOver = function () {
+        var scene = new game.GameOver();
+        stage.addChild(scene);
+        scene.on(game.GameStateEvents.MAIN_MENU, this.onStateEvent, this, false, {state:game.GameStates.MAIN_MENU});
+        scene.on(game.GameStateEvents.GAME, this.onStateEvent, this, false, {state:game.GameStates.GAME});
+        stage.removeChild(this.currentScene);
+        this.currentScene = scene;
+        this.changeState(game.GameStates.RUN_SCENE);
+    }
 
 
     p.addHoles = function (myX) {

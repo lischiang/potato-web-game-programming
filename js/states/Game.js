@@ -9,13 +9,15 @@
     var p = Game.prototype = new createjs.Container();
 
     p.Container_initialize = p.initialize;
-    p.counter = 0;
+    p.lifeCounter = 3;  // initial number of lives
     p.msgTxt = null;
    //p.linesContainer = null;
+    p.statusBoxContainer = null;
     p.environmentContainer = null;
     p.roadContainer = null;
     //p.character = null;
     //p.character.nextX = 0;
+    p.statusBox = null;
 
     p.environmentSpeed = 10;
     p.xOfLeftEnvironments = -55;
@@ -32,6 +34,9 @@
         //this.addLines();
         this.createEnvironmentContainer();
         this.addFirstTimeEnvironments();
+
+        this.createStatusBoxContainer();
+        this.addStatusBox();
     }
 
 
@@ -40,6 +45,21 @@
     //     bg.graphics.beginFill('#FFF').drawRect(0, 0, canvas.width, canvas.height);
     //     this.addChild(bg);
     // }
+    
+    p.createStatusBoxContainer = function () {
+        this.statusBoxContainer = new createjs.Container();
+        this.addChild(this.statusBoxContainer);
+    }
+    p.addStatusBox = function () {
+     
+        var statusBoxes = this.statusBoxContainer;
+
+        var statusBox = new StatusBox('#77c655', '#000', this.lifeCounter);
+        statusBox.x = 880;
+        statusBox.y = 30;
+
+        this.statusBoxContainer.addChild(statusBox);
+    }
 
     p.movePlayer = function (e) {
         window.onkeydown = null;
@@ -393,6 +413,11 @@
                     myHole.height + myHole.y > character.y) {
                     // collision detected!
                     console.log("hit");
+                    // update life counter
+                    this.lifeCounter -= 1;
+
+                    this.updateAndCheckGame();
+
                     togglePause = true;
 
                 } else {
@@ -414,18 +439,18 @@
             stage.update();
 
         }
-
-
     }
 
     p.togglePause = function () {
 
         createjs.Ticker.setPaused(togglePause);
-
-
     }
-    p.checkGame = function () {
-
+    p.updateAndCheckGame = function () {
+        console.log("Lives left: " + this.lifeCounter);
+        if (this.lifeCounter == 0)
+        {
+            this.dispatchEvent(game.GameStateEvents.GAME_OVER);
+        }      
     }
     p.run = function () {
         this.update();
