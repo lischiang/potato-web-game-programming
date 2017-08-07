@@ -447,6 +447,13 @@
     }
     p.updateAndCheckGame = function () {
         console.log("Lives left: " + this.lifeCounter);
+        console.log("this.statusBoxContainer.getNumChildren(): " + this.statusBoxContainer.getNumChildren());
+        if (this.statusBoxContainer.getNumChildren()>0)
+        {
+            statusBox = this.statusBoxContainer.getChildAt(0);
+            statusBox.updateLives(this.lifeCounter);
+        }
+
         if (this.lifeCounter == 0)
         {
             this.dispatchEvent(game.GameStateEvents.GAME_OVER);
