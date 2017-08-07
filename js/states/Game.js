@@ -11,33 +11,35 @@
     p.Container_initialize = p.initialize;
     p.counter = 0;
     p.msgTxt = null;
-    p.linesContainer = null;
+   //p.linesContainer = null;
     p.environmentContainer = null;
     p.roadContainer = null;
     //p.character = null;
     //p.character.nextX = 0;
 
+    p.environmentSpeed = 10;
+    p.xOfLeftEnvironments = -55;
+    p.xOfRightEnvironments = 600;
+
 
     p.initialize = function () {
         this.Container_initialize();
 
-        this.addBG();
-        this.createLinesContainer();
+        //this.addBG();
+        this.createRoadsContainer();
         this.addRoad();
 
         //this.addLines();
         this.createEnvironmentContainer();
-        this.addTrees();
-
-
+        this.addFirstTimeEnvironments();
     }
 
 
-    p.addBG = function () {
-        var bg = new createjs.Shape();
-        bg.graphics.beginFill('#FFF').drawRect(0, 0, canvas.width, canvas.height);
-        this.addChild(bg);
-    }
+    // p.addBG = function () {
+    //     var bg = new createjs.Shape();
+    //     bg.graphics.beginFill('#FFF').drawRect(0, 0, canvas.width, canvas.height);
+    //     this.addChild(bg);
+    // }
 
     p.movePlayer = function (e) {
         window.onkeydown = null;
@@ -48,15 +50,12 @@
             case 37:
                 leftKeyDown = true;
                 rightKeyDown = false
-
-
                 //character.x = character.x -10;
                 //createjs.Tween.get(this.character).to({ x: character.x -10, y: character.y }, 50, createjs.Ease.quadOut);
                 break;
             case 39:
                 rightKeyDown = true;
                 leftKeyDown = false;
-
                 break;
 
             case 32:
@@ -71,7 +70,6 @@
                             myHole = holes[0];
                             holes.splice(0, 1);
                             stage.removeChild(myHole);
-
                         }
                     }
 
@@ -89,7 +87,6 @@
                     hole.height = 55;
                     holes.push(hole);
                     stage.addChild(hole);
-
                 }
 
                 break;
@@ -112,10 +109,10 @@
         }
     }
 
-    p.createLinesContainer = function () {
+    p.createRoadsContainer = function () {
 
-        this.linesContainer = new createjs.Container();
-        this.addChild(this.linesContainer);
+        // this.linesContainer = new createjs.Container();
+        // this.addChild(this.linesContainer);
 
         this.roadContainer = new createjs.Container();
         this.addChild(this.roadContainer);
@@ -147,7 +144,7 @@
         var roads = this.roadContainer;
         var len = roads.getNumChildren();
         road = roads.getChildAt(len - 1);
-        if (road.y >= 1) {
+        if (road.y >= 1) {  // whenever the last added road has y=1, add a new road
             this.addRoad();
 
         }
@@ -160,55 +157,110 @@
         for (var i = 0; i < len; i++) {
             road = roads.getChildAt(i);
             if (road != null) {
-                if (road.y >= 600) {
-                    this.linesContainer.removeChildAt(i);
+                if (road.y >= 600) {    // check when the road "is leaving the screen", and remove it
+                    this.roadContainer.removeChildAt(i);
                 }
             }
         }
 
     }
-    p.addTrees = function () {
-        var tree;
-        var trees = this.environmentContainer;
-        tree = new Cactus();
-        tree.x = 100;
-        tree.y = 0;
-        tree.speed = 10;
-        trees.addChild(tree);
+    p.addFirstTimeEnvironments = function () {
+        var env1, env2, env3, env4, env5, env6;
+        var envs = this.environmentContainer;
+        
+        // left side
+        env1 = new EnvironmentDesert();
+        env1.x = this.xOfLeftEnvironments;
+        env1.y = 0;
+        env1.speed = 10;
+        
 
-        var tree;
-        var trees = this.environmentContainer;
-        tree = new Cactus();
-        tree.x = 700;
-        tree.y = 0;
-        tree.speed = 15;
-        trees.addChild(tree);
+        env2 = new EnvironmentDesert();
+        env2.x = this.xOfLeftEnvironments;
+        env2.y = 256;
+        env2.speed = 10;
+
+        env3 = new EnvironmentDesert();
+        env3.x = this.xOfLeftEnvironments;
+        env3.y = 512;
+        env3.speed = 10;
+
+        // right side
+        env4 = new EnvironmentDesert();
+        env4.x = this.xOfRightEnvironments;
+        env4.y = 0;
+        env4.speed = 10;
+        
+
+        env5 = new EnvironmentDesert();
+        env5.x = this.xOfRightEnvironments;
+        env5.y = 256;
+        env5.speed = 10;
+
+        env6 = new EnvironmentDesert();
+        env6.x = this.xOfRightEnvironments;
+        env6.y = 512;
+        env6.speed = 10;
+
+        // add environments of the initialization to the container
+        envs.addChild(env1);
+        envs.addChild(env2);
+        envs.addChild(env3);
+        envs.addChild(env4);
+        envs.addChild(env5);
+        envs.addChild(env6);
     }
-    p.addingNewTrees = function () {
-        var treeDiv = 100;
-        var tree;
-        var trees = this.environmentContainer;
-        var len = this.environmentContainer.getNumChildren();
-        tree = trees.getChildAt(len - 1);
-        if (tree.y >= 500 + treeDiv) {
-            this.addTrees();
 
+    p.addEnvironments = function () {
+        var envLeft, envRight;
+        var envs = this.environmentContainer;
+        var yOfNewEnvironments = -246;
+
+        envLeft = new EnvironmentDesert();
+        envLeft.x = this.xOfLeftEnvironments;
+        envLeft.y = yOfNewEnvironments;
+        envLeft.speed = this.environmentSpeed;
+
+        envRight = new EnvironmentDesert();
+        envRight.x = this.xOfRightEnvironments;
+        envRight.y = yOfNewEnvironments;
+        envRight.speed = this.environmentSpeed;
+
+        // add new environments to the container
+        envs.addChild(envLeft);
+        envs.addChild(envRight);
+    }
+
+    p.addingNewEnvironments = function () {
+        var env;
+        var envs = this.environmentContainer;
+        var len = envs.getNumChildren();
+        env = envs.getChildAt(len - 1);
+        // whenever the last added environment has y=1, add a new road
+        if (env != null) {
+            if (env.y >= 1) {  
+                this.addEnvironments();
+            }
         }
     }
 
-    p.removeOldTrees = function () {
-        var tree;
-        var trees = this.environmentContainer;
-        var len = this.environmentContainer.getNumChildren();
+    p.eraseOldEnvironments = function () {
+        var env;
+        var envs = this.environmentContainer;
+        var len = envs.getNumChildren();
         for (var i = 0; i < len; i++) {
-            tree = trees.getChildAt(i);
-            if (tree != null) {
-                if (tree.y >= 1200) {
+            env = envs.getChildAt(i);
+            if (env != null) {
+                // check when the environment "is leaving the screen", and remove it
+                if (env.y >= 600) {    
                     this.environmentContainer.removeChildAt(i);
                 }
             }
         }
+
     }
+
+    /*
     p.addLines = function () {
         var line;
         var lines = this.linesContainer;
@@ -244,7 +296,7 @@
             }
         }
     }
-
+*/
 
     p.update = function () {
 
@@ -266,9 +318,9 @@
 
         len = this.environmentContainer.getNumChildren();
         for (var i = 0; i < len; i++) {
-            tree = this.environmentContainer.getChildAt(i);
-            nextY = tree.y + tree.speed;
-            tree.nextY = nextY;
+            env = this.environmentContainer.getChildAt(i);
+            nextY = env.y + env.speed;
+            env.nextY = nextY;
         }
 
         // len = holes.getNumChildren();
@@ -350,11 +402,11 @@
 
             }
 
-            var tree;
+            var env;
             len = this.environmentContainer.getNumChildren();
             for (var i = 0; i < len; i++) {
-                tree = this.environmentContainer.getChildAt(i);
-                tree.y = tree.nextY;
+                env = this.environmentContainer.getChildAt(i);
+                env.y = env.nextY;
 
             }
 
@@ -382,8 +434,8 @@
         //this.removeOldLines();
         this.addingNewRoad();
         this.eraseOldRoad();
-        this.addingNewTrees();
-        this.removeOldTrees();
+        this.addingNewEnvironments();
+        this.eraseOldEnvironments();
         this.togglePause();
         //window.game.middleGame.addNewHoles();
         window.onkeydown = this.movePlayer;
