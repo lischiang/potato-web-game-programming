@@ -47,7 +47,7 @@
         this.bar.graphics.drawRect(0, 0, this.width, this.height);
         this.bar.y = barPositionY;
         this.bar.x = barPositionX;
-        this.bar.scaleY = 0.3;
+        this.bar.scaleY = 0;
         this.addChild(this.bar, outline);
     }
 
@@ -57,7 +57,7 @@
 
     p.updateBar = function (perc) {
         perc = perc > 1 ? 1 : perc;
-        this.bar.scaleX = perc;
+        this.bar.scaleY = perc;
     }
 
     window.StatusBox = StatusBox;

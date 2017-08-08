@@ -9,8 +9,8 @@
     var p = Game.prototype = new createjs.Container();
 
     p.Container_initialize = p.initialize;
-    p.lifeCounter = 3;  // initial number of lives
-    p.msgTxt = null;
+    p.lifeCounter = 3;  // number of lives
+    p.distanceRun = 0;  // distance already run
    //p.linesContainer = null;
     p.statusBoxContainer = null;
     p.environmentContainer = null;
@@ -18,6 +18,7 @@
     //p.character = null;
     //p.character.nextX = 0;
     p.statusBox = null;
+    p.distanceStep = 0.0005;
 
     p.environmentSpeed = 10;
     p.xOfLeftEnvironments = -55;
@@ -45,13 +46,13 @@
     //     bg.graphics.beginFill('#FFF').drawRect(0, 0, canvas.width, canvas.height);
     //     this.addChild(bg);
     // }
-    
+
     p.createStatusBoxContainer = function () {
         this.statusBoxContainer = new createjs.Container();
         this.addChild(this.statusBoxContainer);
     }
     p.addStatusBox = function () {
-     
+
         var statusBoxes = this.statusBoxContainer;
 
         var statusBox = new StatusBox('#77c655', '#000', this.lifeCounter);
@@ -138,10 +139,12 @@
         this.addChild(this.roadContainer);
 
     }
+
     p.createEnvironmentContainer = function () {
         this.environmentContainer = new createjs.Container();
         this.addChild(this.environmentContainer);
     }
+
     p.addRoad = function () {
         // var road = new createjs.Shape();
         // road.graphics.beginFill('#DDC').drawRect(0, 0, 400, 600);
@@ -184,16 +187,17 @@
         }
 
     }
+
     p.addFirstTimeEnvironments = function () {
         var env1, env2, env3, env4, env5, env6;
         var envs = this.environmentContainer;
-        
+
         // left side
         env1 = new EnvironmentDesert();
         env1.x = this.xOfLeftEnvironments;
         env1.y = 0;
         env1.speed = 10;
-        
+
 
         env2 = new EnvironmentDesert();
         env2.x = this.xOfLeftEnvironments;
@@ -210,7 +214,7 @@
         env4.x = this.xOfRightEnvironments;
         env4.y = 0;
         env4.speed = 10;
-        
+
 
         env5 = new EnvironmentDesert();
         env5.x = this.xOfRightEnvironments;
@@ -258,7 +262,7 @@
         env = envs.getChildAt(len - 1);
         // whenever the last added environment has y=1, add a new road
         if (env != null) {
-            if (env.y >= 1) {  
+            if (env.y >= 1) {
                 this.addEnvironments();
             }
         }
@@ -272,7 +276,7 @@
             env = envs.getChildAt(i);
             if (env != null) {
                 // check when the environment "is leaving the screen", and remove it
-                if (env.y >= 600) {    
+                if (env.y >= 600) {
                     this.environmentContainer.removeChildAt(i);
                 }
             }
@@ -320,75 +324,71 @@
 
     p.update = function () {
 
-        var line, nextY, len, tree, bG;
-        // len = this.linesContainer.getNumChildren();
-        // for(var i = 0; i< len ; i++){
-        //     line = this.linesContainer.getChildAt(i);
-        //     nextY = line.y + line.speed;
-        //     line.nextY = nextY;
-        //
-        // }
-
-        len = this.roadContainer.getNumChildren();
-        for (var i = 0; i < len; i++) {
-            bG = this.roadContainer.getChildAt(i);
-            nextY = bG.y + bG.speed;
-            bG.nextY = nextY;
-        }
-
-        len = this.environmentContainer.getNumChildren();
-        for (var i = 0; i < len; i++) {
-            env = this.environmentContainer.getChildAt(i);
-            nextY = env.y + env.speed;
-            env.nextY = nextY;
-        }
-
-        // len = holes.getNumChildren();
-        // for (var i = 0; i < len; i++) {
-        //     hole = holes.getChildAt(i);
-        //     nextY = hole.y + hole.speed;
-        //     hole.nextY = nextY;
-        // }
-
-        len = holes.length;
-        var myHole;
-        for (var i = 0; i < len; i++) {
-            myHole = holes[i];
-            nextY = myHole.y + myHole.speed;
-            myHole.nextY = nextY;
-        }
-
-
-        var nextX;
-
-        if (leftKeyDown) {
-            nextX = character.x - 10;
-            character.nextX = nextX;
-
-
-            if (nextX < 0) {
-                nextX = 0;
-            }
-        } else if (rightKeyDown) {
-            nextX = character.x + 10;
-            // if(nextX > stage.canvas.width - this.character.width){
-            //     nextX = stage.canvas.width - this.character.width;
+        if (!createjs.Ticker.getPaused()) {
+            var line, nextY, len, tree, bG;
+            // len = this.linesContainer.getNumChildren();
+            // for(var i = 0; i< len ; i++){
+            //     line = this.linesContainer.getChildAt(i);
+            //     nextY = line.y + line.speed;
+            //     line.nextY = nextY;
+            //
             // }
-            character.nextX = nextX;
+
+            len = this.roadContainer.getNumChildren();
+            for (var i = 0; i < len; i++) {
+                bG = this.roadContainer.getChildAt(i);
+                nextY = bG.y + bG.speed;
+                bG.nextY = nextY;
+            }
+
+            len = this.environmentContainer.getNumChildren();
+            for (var i = 0; i < len; i++) {
+                env = this.environmentContainer.getChildAt(i);
+                nextY = env.y + env.speed;
+                env.nextY = nextY;
+            }
+
+            // len = holes.getNumChildren();
+            // for (var i = 0; i < len; i++) {
+            //     hole = holes.getChildAt(i);
+            //     nextY = hole.y + hole.speed;
+            //     hole.nextY = nextY;
+            // }
+
+            len = holes.length;
+            var myHole;
+            for (var i = 0; i < len; i++) {
+                myHole = holes[i];
+                nextY = myHole.y + myHole.speed;
+                myHole.nextY = nextY;
+            }
+
+
+            var nextX;
+
+            if (leftKeyDown) {
+                nextX = character.x - 10;
+                character.nextX = nextX;
+
+
+                if (nextX < 0) {
+                    nextX = 0;
+                }
+            } else if (rightKeyDown) {
+                nextX = character.x + 10;
+                // if(nextX > stage.canvas.width - this.character.width){
+                //     nextX = stage.canvas.width - this.character.width;
+                // }
+                character.nextX = nextX;
+            }
+
+            // update distance already run
+            this.distanceRun += this.distanceStep;
         }
 
     }
+
     p.render = function () {
-
-        // var line;
-        // var len = this.linesContainer.getNumChildren();
-        // for(var i = 0; i< len ; i++){
-        //     line = this.linesContainer.getChildAt(i);
-        //     line.y = line.nextY;
-        //
-        // }
-        //this.character.x = this.character.nextX;
-
 
         if (!createjs.Ticker.getPaused()) {
 
@@ -416,7 +416,7 @@
                     // update life counter
                     this.lifeCounter -= 1;
 
-                    this.updateAndCheckGame();
+                    this.updateAndCheckGameAfterHit();
 
                     togglePause = true;
 
@@ -435,6 +435,13 @@
 
             }
 
+            // update distance bar
+            if (this.statusBoxContainer.getNumChildren()>0)
+            {
+                statusBox = this.statusBoxContainer.getChildAt(0);
+                statusBox.updateBar(this.distanceRun);
+            }
+
             character.x = character.nextX;
             stage.update();
 
@@ -445,25 +452,32 @@
 
         createjs.Ticker.setPaused(togglePause);
     }
-    p.updateAndCheckGame = function () {
-        console.log("Lives left: " + this.lifeCounter);
-        console.log("this.statusBoxContainer.getNumChildren(): " + this.statusBoxContainer.getNumChildren());
+    p.updateAndCheckGameAfterHit = function () {
+        // update number of lives on the ui
         if (this.statusBoxContainer.getNumChildren()>0)
         {
             statusBox = this.statusBoxContainer.getChildAt(0);
             statusBox.updateLives(this.lifeCounter);
         }
-
+        // check if the player has lost the game
         if (this.lifeCounter == 0)
         {
             this.dispatchEvent(game.GameStateEvents.GAME_OVER);
-        }      
+        }
     }
+
+    p.checkGame = function () {
+        if (this.distanceRun >= 1)
+        {
+            this.dispatchEvent(game.GameStateEvents.GAME_OVER);
+        }
+    }
+
     p.run = function () {
+        
         this.update();
         this.render();
-        //this.addingNewLines();
-        //this.removeOldLines();
+        this.checkGame();
         this.addingNewRoad();
         this.eraseOldRoad();
         this.addingNewEnvironments();
