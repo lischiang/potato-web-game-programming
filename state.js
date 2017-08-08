@@ -7,7 +7,7 @@
         INSTRUCTIONS:5,
         RUN_SCENE:1,
         GAME:10,
-        SCORE_SCREEN:11,
+        GAME:12,
         GAME_OVER:20
     }
 
@@ -17,7 +17,7 @@
         GAME_OVER:'game over event',
         MAIN_MENU_SELECT:'game menu select event',
         GAME:'game event',
-        SCORE_SCREEN:'score screen event'
+        GAME2:'game 2 event'
     }
 
     window.game.GameStates = GameStates;

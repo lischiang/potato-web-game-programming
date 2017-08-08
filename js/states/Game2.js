@@ -2,30 +2,27 @@
 
     window.game = window.game || {}
 
-    function Game() {
+    function Game2() {
         this.initialize();
     }
 
-    var p = Game.prototype = new createjs.Container();
+    var p = Game2.prototype = new createjs.Container();
 
     p.Container_initialize = p.initialize;
-    p.lifeCounter = 3;  // number of lives
+    p.lifeCounter = 4;  // number of lives
     p.distanceRun = 0;  // distance already run
-   //p.linesContainer = null;
     p.statusBoxContainer = null;
     p.environmentContainer = null;
     p.roadContainer = null;
-    //p.character = null;
-    //p.character.nextX = 0;
     p.statusBox = null;
     p.distanceStep = 0.0005;
-
     p.environmentSpeed = 10;
     p.xOfLeftEnvironments = -55;
     p.xOfRightEnvironments = 600;
 
 
     p.initialize = function () {
+        console.log("Level 2");
         this.Container_initialize();
 
         //this.addBG();
@@ -39,13 +36,6 @@
         this.createStatusBoxContainer();
         this.addStatusBox();
     }
-
-
-    // p.addBG = function () {
-    //     var bg = new createjs.Shape();
-    //     bg.graphics.beginFill('#FFF').drawRect(0, 0, canvas.width, canvas.height);
-    //     this.addChild(bg);
-    // }
 
     p.createStatusBoxContainer = function () {
         this.statusBoxContainer = new createjs.Container();
@@ -71,8 +61,6 @@
             case 37:
                 leftKeyDown = true;
                 rightKeyDown = false
-                //character.x = character.x -10;
-                //createjs.Tween.get(this.character).to({ x: character.x -10, y: character.y }, 50, createjs.Ease.quadOut);
                 break;
             case 39:
                 rightKeyDown = true;
@@ -132,9 +120,6 @@
 
     p.createRoadsContainer = function () {
 
-        // this.linesContainer = new createjs.Container();
-        // this.addChild(this.linesContainer);
-
         this.roadContainer = new createjs.Container();
         this.addChild(this.roadContainer);
 
@@ -146,10 +131,6 @@
     }
 
     p.addRoad = function () {
-        // var road = new createjs.Shape();
-        // road.graphics.beginFill('#DDC').drawRect(0, 0, 400, 600);
-        // road.x = 200;
-        // road.y = 0;
 
         var road = new createjs.Bitmap('img/road_grey.png');
         road.x = 200;
@@ -162,7 +143,6 @@
     }
 
     p.addingNewRoad = function () {
-        //var lineDiv = 120;
         var road;
         var roads = this.roadContainer;
         var len = roads.getNumChildren();
@@ -189,63 +169,51 @@
     }
 
     p.addFirstTimeEnvironments = function () {
-        var env1, env2, env3, env4, env5, env6;
+        var env1, env2, env3, env4;
         var envs = this.environmentContainer;
 
         // left side
-        env1 = new EnvironmentDesert();
+        env1 = new EnvironmentGrass();
         env1.x = this.xOfLeftEnvironments;
         env1.y = 0;
         env1.speed = 10;
 
 
-        env2 = new EnvironmentDesert();
+        env2 = new EnvironmentGrass();
         env2.x = this.xOfLeftEnvironments;
-        env2.y = 256;
+        env2.y = 408;
         env2.speed = 10;
 
-        env3 = new EnvironmentDesert();
-        env3.x = this.xOfLeftEnvironments;
-        env3.y = 512;
+        // right side
+        env3 = new EnvironmentGrass();
+        env3.x = this.xOfRightEnvironments;
+        env3.y = 0;
         env3.speed = 10;
 
-        // right side
-        env4 = new EnvironmentDesert();
+
+        env4 = new EnvironmentGrass();
         env4.x = this.xOfRightEnvironments;
-        env4.y = 0;
+        env4.y = 408;
         env4.speed = 10;
-
-
-        env5 = new EnvironmentDesert();
-        env5.x = this.xOfRightEnvironments;
-        env5.y = 256;
-        env5.speed = 10;
-
-        env6 = new EnvironmentDesert();
-        env6.x = this.xOfRightEnvironments;
-        env6.y = 512;
-        env6.speed = 10;
 
         // add environments of the initialization to the container
         envs.addChild(env1);
         envs.addChild(env2);
         envs.addChild(env3);
         envs.addChild(env4);
-        envs.addChild(env5);
-        envs.addChild(env6);
     }
 
     p.addEnvironments = function () {
         var envLeft, envRight;
         var envs = this.environmentContainer;
-        var yOfNewEnvironments = -246;
+        var yOfNewEnvironments = -398;
 
-        envLeft = new EnvironmentDesert();
+        envLeft = new EnvironmentGrass();
         envLeft.x = this.xOfLeftEnvironments;
         envLeft.y = yOfNewEnvironments;
         envLeft.speed = this.environmentSpeed;
 
-        envRight = new EnvironmentDesert();
+        envRight = new EnvironmentGrass();
         envRight.x = this.xOfRightEnvironments;
         envRight.y = yOfNewEnvironments;
         envRight.speed = this.environmentSpeed;
@@ -284,56 +252,11 @@
 
     }
 
-    /*
-    p.addLines = function () {
-        var line;
-        var lines = this.linesContainer;
-        line = new DivisionLine();
-        line.x = 400;
-        line.y = -100;
-        line.speed = 10;
-        lines.addChild(line);
-
-    }
-    p.addingNewLines = function () {
-        var lineDiv = 120;
-        var line;
-        var lines = this.linesContainer;
-        var len = this.linesContainer.getNumChildren();
-        line = lines.getChildAt(len - 1);
-        if (line.y >= lineDiv) {
-            this.addLines();
-
-        }
-    }
-
-    p.removeOldLines = function () {
-        var line;
-        var lines = this.linesContainer;
-        var len = this.linesContainer.getNumChildren();
-        for (var i = 0; i < len; i++) {
-            line = lines.getChildAt(i);
-            if (line != null) {
-                if (line.y >= 600) {
-                    this.linesContainer.removeChildAt(i);
-                }
-            }
-        }
-    }
-*/
-
     p.update = function () {
 
         if (!createjs.Ticker.getPaused()) {
             var line, nextY, len, tree, bG;
-            // len = this.linesContainer.getNumChildren();
-            // for(var i = 0; i< len ; i++){
-            //     line = this.linesContainer.getChildAt(i);
-            //     nextY = line.y + line.speed;
-            //     line.nextY = nextY;
-            //
-            // }
-
+       
             len = this.roadContainer.getNumChildren();
             for (var i = 0; i < len; i++) {
                 bG = this.roadContainer.getChildAt(i);
@@ -347,13 +270,6 @@
                 nextY = env.y + env.speed;
                 env.nextY = nextY;
             }
-
-            // len = holes.getNumChildren();
-            // for (var i = 0; i < len; i++) {
-            //     hole = holes.getChildAt(i);
-            //     nextY = hole.y + hole.speed;
-            //     hole.nextY = nextY;
-            // }
 
             len = holes.length;
             var myHole;
@@ -376,9 +292,7 @@
                 }
             } else if (rightKeyDown) {
                 nextX = character.x + 10;
-                // if(nextX > stage.canvas.width - this.character.width){
-                //     nextX = stage.canvas.width - this.character.width;
-                // }
+            
                 character.nextX = nextX;
             }
 
@@ -420,11 +334,7 @@
 
                     togglePause = true;
 
-                } else {
-                    // no collision
-
-                }
-
+                } 
             }
 
             var env;
@@ -462,7 +372,6 @@
         // check if the player has lost the game
         if (this.lifeCounter == 0)
         {
-            console
             this.dispatchEvent(game.GameStateEvents.GAME_OVER);
         }
     }
@@ -470,7 +379,7 @@
     p.checkGame = function () {
         if (this.distanceRun >= 1)
         {
-            this.dispatchEvent(game.GameStateEvents.GAME2);
+            this.dispatchEvent(game.GameStateEvents.GAME_OVER);
         }
     }
 
@@ -484,12 +393,11 @@
         this.addingNewEnvironments();
         this.eraseOldEnvironments();
         this.togglePause();
-        //window.game.middleGame.addNewHoles();
         window.onkeydown = this.movePlayer;
         window.onkeyup = this.stopPlayer;
 
     }
 
-    window.game.Game = Game;
+    window.game.Game2 = Game2;
 
 }(window));
