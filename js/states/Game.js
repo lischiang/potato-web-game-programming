@@ -366,7 +366,7 @@
 
             var nextX;
 
-            if (leftKeyDown) {
+            if (leftKeyDown && character.x > 200) {
                 nextX = character.x - 10;
                 character.nextX = nextX;
 
@@ -374,7 +374,7 @@
                 if (nextX < 0) {
                     nextX = 0;
                 }
-            } else if (rightKeyDown) {
+            } else if (rightKeyDown && character.x < 600 - character.width) {
                 nextX = character.x + 10;
                 // if(nextX > stage.canvas.width - this.character.width){
                 //     nextX = stage.canvas.width - this.character.width;
