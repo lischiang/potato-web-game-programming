@@ -22,7 +22,7 @@
         stage = new createjs.Stage(canvas);
         createjs.Ticker.setFPS(60);
         createjs.Ticker.on('tick', this.onTick, this);
-        this.changeState(game.GameStates.GAME);
+        this.changeState(game.GameStates.MAIN_MENU);
     }
     p.changeState = function (state) {
         this.currentGameState = state;
