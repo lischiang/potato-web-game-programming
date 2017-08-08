@@ -18,7 +18,7 @@
     //p.character = null;
     //p.character.nextX = 0;
     p.statusBox = null;
-    p.distanceStep = 0.0005;
+    p.distanceStep = 0.005;
 
     p.environmentSpeed = 10;
     p.xOfLeftEnvironments = -55;
@@ -66,7 +66,7 @@
         window.onkeydown = null;
         window.onkeyup = null;
         e = !e ? window.event : e;
-        console.log(e);
+        //console.log(e);
         switch (e.keyCode) {
             case 37:
                 leftKeyDown = true;
@@ -117,7 +117,7 @@
 
     p.stopPlayer = function (e) {
         e = !e ? window.event : e;
-        console.log(e);
+        //console.log(e);
         switch (e.keyCode) {
             case 37:
                 leftKeyDown = false;
@@ -412,7 +412,7 @@
                     myHole.y < character.y + character.height &&
                     myHole.height + myHole.y > character.y) {
                     // collision detected!
-                    console.log("hit");
+                    console.log("hit! PRESS SPACE BAR TO CONTINUE.");
                     // update life counter
                     this.lifeCounter -= 1;
 
@@ -462,7 +462,6 @@
         // check if the player has lost the game
         if (this.lifeCounter == 0)
         {
-            console
             this.dispatchEvent(game.GameStateEvents.GAME_OVER);
         }
     }

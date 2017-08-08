@@ -15,14 +15,13 @@
     p.environmentContainer = null;
     p.roadContainer = null;
     p.statusBox = null;
-    p.distanceStep = 0.0005;
+    p.distanceStep = 0.005;
     p.environmentSpeed = 10;
     p.xOfLeftEnvironments = -55;
     p.xOfRightEnvironments = 600;
 
 
     p.initialize = function () {
-        console.log("Level 2");
         this.Container_initialize();
 
         //this.addBG();
@@ -56,7 +55,7 @@
         window.onkeydown = null;
         window.onkeyup = null;
         e = !e ? window.event : e;
-        console.log(e);
+        //console.log(e);
         switch (e.keyCode) {
             case 37:
                 leftKeyDown = true;
@@ -105,7 +104,7 @@
 
     p.stopPlayer = function (e) {
         e = !e ? window.event : e;
-        console.log(e);
+        //console.log(e);
         switch (e.keyCode) {
             case 37:
                 leftKeyDown = false;
@@ -326,7 +325,7 @@
                     myHole.y < character.y + character.height &&
                     myHole.height + myHole.y > character.y) {
                     // collision detected!
-                    console.log("hit");
+                    console.log("hit! PRESS SPACE BAR TO CONTINUE.");
                     // update life counter
                     this.lifeCounter -= 1;
 
@@ -379,7 +378,7 @@
     p.checkGame = function () {
         if (this.distanceRun >= 1)
         {
-            this.dispatchEvent(game.GameStateEvents.GAME_OVER);
+            this.dispatchEvent(game.GameStateEvents.MAIN_MENU);
         }
     }
 

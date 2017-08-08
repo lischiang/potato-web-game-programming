@@ -96,6 +96,7 @@
     p.gameStateGame2 = function () {
         var scene = new game.Game2();
         scene.on(game.GameStateEvents.GAME_OVER, this.onStateEvent, this, false, {state: game.GameStates.GAME_OVER});
+        scene.on(game.GameStateEvents.MAIN_MENU, this.onStateEvent, this, false, {state: game.GameStates.MAIN_MENU});
         stage.addChild(scene);
         stage.removeChild(this.currentScene);
         this.currentScene = scene;
