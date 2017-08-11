@@ -9,7 +9,7 @@
     var p = Game2.prototype = new createjs.Container();
 
     p.Container_initialize = p.initialize;
-    p.lifeCounter = 4;  // number of lives
+    p.lifeCounter = 3;  // number of lives
     p.distanceRun = 0;  // distance already run
     p.statusBoxContainer = null;
     p.environmentContainer = null;

@@ -6,11 +6,11 @@
 
     window.game = window.game || {}
 
-    function middleGame() {
+    function SceneManager() {
         this.initialize();
     }
 
-    var p = middleGame.prototype;
+    var p = SceneManager.prototype;
 
     p.currentGameStateFunction;
     p.currentGameState;
@@ -205,6 +205,6 @@
         stage.update();
     }
 
-    window.game.middleGame = middleGame;
+    window.game.SceneManager = SceneManager;
 
 }(window));

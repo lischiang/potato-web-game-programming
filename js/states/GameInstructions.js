@@ -31,10 +31,11 @@
         this.addChild(bg);
     }
     p.addTitle = function () {
-        var myText = 'Bill "The Tart" has decided to take a ride in his bike and ' +
-            'suddenly its brakes broke. He needs your help to reach the end ' +
-            'of the slope in one piece, so lead him using the keys accordingly… ' +
-            'Bill will appreciate it…..'
+        var myText = 'Billy "The Tarte" is riding his bike down a hill, ' + 
+            'running away from Jeff "The Fryer".' +
+            ' Help him to reach the end ' +
+            'of the slope in one piece by using the keys accordingly. ' +
+            'Billy will appreciate it...'
 
         this.titleTxt = new createjs.Text(myText, '40px Comic Sans MS', '#FFF');
         this.titleTxt.lineWidth = 750;
@@ -50,14 +51,14 @@
         btn = new ui.RightButton;
         btn.on('click',this.playGame,this);
         //btn.regX = btn.width / 2;
-        btn.x = 693;
+        btn.x = 893;
         btn.y = 520;
         btn.setButton();
         this.addChild(btn);
 
         var imgPath = 'img/right.PNG';
         this.test = new createjs.Bitmap(imgPath);
-        this.test.x = 693;
+        this.test.x = 893;
         this.test.y = 520;
         //this.buttonRight.on('click',this.playGame,this);
         // this.buttonRight.addEventListener('click', this.testing);
@@ -82,25 +83,7 @@
         this.buttonLeft.y = 520;
         this.addChild(this.buttonLeft);
     }
-
-    // p.addButton = function () {
-    //     var btn;
-    //     btn = new ui.SimpleButton('Main Menu');
-    //     btn.regX = btn.width / 2;
-    //     btn.x = canvas.width / 2;
-    //     btn.y = 280;
-    //     btn.on('click', this.mainMenu, this);
-    //     this.addChild(btn);
-    //     btn = new ui.SimpleButton('Play Again');
-    //     btn.regX = btn.width / 2;
-    //     btn.x = canvas.width / 2;
-    //     btn.y = 350;
-    //     btn.on('click', this.playGame, this);
-    //     this.addChild(btn);
-    // }
-
-
-
+    
     p.addKeyboardInstructions = function () {
         var imgPath = 'img/KeyboardArrows.png';
         this.keyboard = new createjs.Bitmap(imgPath);
@@ -136,22 +119,6 @@
         potato.y = 300;
         this.addChild(potato);
     }
-
-    // p.addOrbs = function () {
-    //     var i, orb;
-    //     var orbContainer = new createjs.Container();
-    //     var numOrbs = 5;
-    //     var orbSize = 20;
-    //     var orbPadding = 10;
-    //     var orbsPosition = 300;
-    //     for (i = 0; i < numOrbs; i++) {
-    //         orb = new PulsingOrb('#FFF', orbSize);
-    //         orb.x = i * ((orbSize * 2) + orbPadding);
-    //         orbContainer.addChild(orb);
-    //     }
-    //     orbContainer.x = orbContainer.y = orbsPosition;
-    //     this.addChild(orbContainer);
-    // }
     // p.addButton = function () {
     //     var btn, event;
     //     btn = new ui.SimpleButton('Play Game');

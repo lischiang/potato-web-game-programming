@@ -9,6 +9,7 @@
     var p = Game.prototype = new createjs.Container();
 
     p.Container_initialize = p.initialize;
+
     p.lifeCounter = 3;  // number of lives
     p.distanceRun = 0;  // distance already run
    //p.linesContainer = null;
@@ -17,6 +18,7 @@
     p.roadContainer = null;
     //p.character = null;
     //p.character.nextX = 0;
+    
     p.statusBox = null;
     p.distanceStep = 0.005;
 
@@ -28,7 +30,6 @@
     p.initialize = function () {
         this.Container_initialize();
 
-        //this.addBG();
         this.createRoadsContainer();
         this.addRoad();
 
@@ -39,13 +40,6 @@
         this.createStatusBoxContainer();
         this.addStatusBox();
     }
-
-
-    // p.addBG = function () {
-    //     var bg = new createjs.Shape();
-    //     bg.graphics.beginFill('#FFF').drawRect(0, 0, canvas.width, canvas.height);
-    //     this.addChild(bg);
-    // }
 
     p.createStatusBoxContainer = function () {
         this.statusBoxContainer = new createjs.Container();
@@ -84,28 +78,29 @@
 
                 if (!togglePause) {
 
+                    // remove all the current holes
                     var len = holes.length;
                     for (var i = 0; i < len; i++) {
                         var myHole;
                         if (holes[0] != null) {
                             myHole = holes[0];
-                            holes.splice(0, 1);
+                            holes.splice(0, 1); // remove first element from holes
                             stage.removeChild(myHole);
                         }
                     }
 
-                    //generating a new hole in order to continue playing.
+                    //generate a new hole in order to continue playing.
 
                     hole = new createjs.Bitmap('img/hole.png')
-                    var myX = Math.random() * (1 - 0) + 0;
-                    myX = myX * 400 + 200;
-                    hole.x = myX;
-                    hole.scaleX = 0.2;
-                    hole.scaleY = 0.2;
-                    //hole.y = 10;
-                    hole.speed = 10;
+                    hole.speed = 10;    // >>>>>>>>>  this should be this.environmentSpeed, but gives bug if changed
                     hole.width = 60;
                     hole.height = 55;
+                    var myX = Math.random() * (1 - 0) + 0;
+                    myX = myX * (400 - hole.width) + 200;
+                    hole.x = myX;
+                    hole.scaleX = 0.15;
+                    hole.scaleY = 0.15;
+                    //hole.y = 10;  
                     holes.push(hole);
                     stage.addChild(hole);
                 }
@@ -156,7 +151,7 @@
         road.y = -250;
         road.scaleX = 3.738;
         road.scaleY = 3.738;
-        road.speed = 10;
+        road.speed = this.environmentSpeed;
 
         this.roadContainer.addChild(road);
     }
@@ -196,35 +191,35 @@
         env1 = new EnvironmentDesert();
         env1.x = this.xOfLeftEnvironments;
         env1.y = 0;
-        env1.speed = 10;
+        env1.speed = this.environmentSpeed;
 
 
         env2 = new EnvironmentDesert();
         env2.x = this.xOfLeftEnvironments;
         env2.y = 256;
-        env2.speed = 10;
+        env2.speed = this.environmentSpeed;
 
         env3 = new EnvironmentDesert();
         env3.x = this.xOfLeftEnvironments;
         env3.y = 512;
-        env3.speed = 10;
+        env3.speed = this.environmentSpeed;
 
         // right side
         env4 = new EnvironmentDesert();
         env4.x = this.xOfRightEnvironments;
         env4.y = 0;
-        env4.speed = 10;
+        env4.speed = this.environmentSpeed;
 
 
         env5 = new EnvironmentDesert();
         env5.x = this.xOfRightEnvironments;
         env5.y = 256;
-        env5.speed = 10;
+        env5.speed = this.environmentSpeed;
 
         env6 = new EnvironmentDesert();
         env6.x = this.xOfRightEnvironments;
         env6.y = 512;
-        env6.speed = 10;
+        env6.speed = this.environmentSpeed;
 
         // add environments of the initialization to the container
         envs.addChild(env1);
@@ -407,7 +402,7 @@
                 myHole = holes[i];
                 myHole.y = myHole.nextY;
 
-                if (myHole.x < character.x + character.width &&
+                if (myHole.x < character.x + character.width && // >>>>>>>>>>> maybe better give some tollerance
                     myHole.x + myHole.width > character.x &&
                     myHole.y < character.y + character.height &&
                     myHole.height + myHole.y > character.y) {
@@ -483,7 +478,6 @@
         this.addingNewEnvironments();
         this.eraseOldEnvironments();
         this.togglePause();
-        //window.game.middleGame.addNewHoles();
         window.onkeydown = this.movePlayer;
         window.onkeyup = this.stopPlayer;
 
