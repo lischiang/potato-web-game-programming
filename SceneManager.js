@@ -136,7 +136,7 @@
         hole.x = myX;
         hole.scaleX = 0.2;
         hole.scaleY = 0.2;
-        //hole.y = 10;
+        hole.y = -30;
         hole.speed = this.environmentSpeed;
         hole.width = 60;
         hole.height = 55;

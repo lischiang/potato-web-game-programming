@@ -16,7 +16,7 @@
     p.roadContainer = null;   
     p.statusBox = null;
     p.distanceStep = 0.005;
-    environmentSpeed1 = 5; // defining this variable globally (can be read in SceneManager)
+    environmentSpeed1 = 20; // defining this variable globally (can be read in SceneManager)
     p.xOfLeftEnvironments = -55;
     p.xOfRightEnvironments = 600;
 
@@ -227,7 +227,7 @@
     p.addEnvironments = function () {
         var envLeft, envRight;
         var envs = this.environmentContainer;
-        var yOfNewEnvironments = -246;
+        var yOfNewEnvironments = -256 + environmentSpeed1;
 
         envLeft = new EnvironmentDesert();
         envLeft.x = this.xOfLeftEnvironments;
@@ -273,55 +273,10 @@
 
     }
 
-    /*
-    p.addLines = function () {
-        var line;
-        var lines = this.linesContainer;
-        line = new DivisionLine();
-        line.x = 400;
-        line.y = -100;
-        line.speed = 10;
-        lines.addChild(line);
-
-    }
-    p.addingNewLines = function () {
-        var lineDiv = 120;
-        var line;
-        var lines = this.linesContainer;
-        var len = this.linesContainer.getNumChildren();
-        line = lines.getChildAt(len - 1);
-        if (line.y >= lineDiv) {
-            this.addLines();
-
-        }
-    }
-
-    p.removeOldLines = function () {
-        var line;
-        var lines = this.linesContainer;
-        var len = this.linesContainer.getNumChildren();
-        for (var i = 0; i < len; i++) {
-            line = lines.getChildAt(i);
-            if (line != null) {
-                if (line.y >= 600) {
-                    this.linesContainer.removeChildAt(i);
-                }
-            }
-        }
-    }
-*/
-
     p.update = function () {
 
         if (!createjs.Ticker.getPaused()) {
             var line, nextY, len, tree, bG;
-            // len = this.linesContainer.getNumChildren();
-            // for(var i = 0; i< len ; i++){
-            //     line = this.linesContainer.getChildAt(i);
-            //     nextY = line.y + line.speed;
-            //     line.nextY = nextY;
-            //
-            // }
 
             len = this.roadContainer.getNumChildren();
             for (var i = 0; i < len; i++) {
@@ -336,13 +291,6 @@
                 nextY = env.y + env.speed;
                 env.nextY = nextY;
             }
-
-            // len = holes.getNumChildren();
-            // for (var i = 0; i < len; i++) {
-            //     hole = holes.getChildAt(i);
-            //     nextY = hole.y + hole.speed;
-            //     hole.nextY = nextY;
-            // }
 
             len = holes.length;
             var myHole;
