@@ -9,21 +9,14 @@
     var p = Game.prototype = new createjs.Container();
 
     p.Container_initialize = p.initialize;
-
     p.lifeCounter = 3;  // number of lives
     p.distanceRun = 0;  // distance already run
-   //p.linesContainer = null;
     p.statusBoxContainer = null;
     p.environmentContainer = null;
-    p.roadContainer = null;
-    //p.character = null;
-    //p.character.nextX = 0;
-    
+    p.roadContainer = null;   
     p.statusBox = null;
     p.distanceStep = 0.005;
-
-    //p.environmentSpeed = 10;
-    environmentSpeed1 = 20;
+    environmentSpeed1 = 5; // defining this variable globally (can be read in SceneManager)
     p.xOfLeftEnvironments = -55;
     p.xOfRightEnvironments = 600;
 

@@ -9,6 +9,7 @@
     var p = Game2.prototype = new createjs.Container();
 
     p.Container_initialize = p.initialize;
+
     p.lifeCounter = 3;  // number of lives
     p.distanceRun = 0;  // distance already run
     p.statusBoxContainer = null;
@@ -16,7 +17,7 @@
     p.roadContainer = null;
     p.statusBox = null;
     p.distanceStep = 0.005;
-    p.environmentSpeed = 10;
+    environmentSpeed2 = 10; // defining this variable globally (can be read in SceneManager)
     p.xOfLeftEnvironments = -55;
     p.xOfRightEnvironments = 600;
 
@@ -90,7 +91,7 @@
                     hole.scaleX = 0.2;
                     hole.scaleY = 0.2;
                     //hole.y = 10;
-                    hole.speed = 10;
+                    hole.speed = environmentSpeed2;
                     hole.width = 60;
                     hole.height = 55;
                     holes.push(hole);
@@ -136,7 +137,7 @@
         road.y = -250;
         road.scaleX = 3.738;
         road.scaleY = 3.738;
-        road.speed = 10;
+        road.speed = environmentSpeed2;
 
         this.roadContainer.addChild(road);
     }
@@ -175,25 +176,25 @@
         env1 = new EnvironmentGrass();
         env1.x = this.xOfLeftEnvironments;
         env1.y = 0;
-        env1.speed = 10;
+        env1.speed = environmentSpeed2;
 
 
         env2 = new EnvironmentGrass();
         env2.x = this.xOfLeftEnvironments;
         env2.y = 408;
-        env2.speed = 10;
+        env2.speed = environmentSpeed2;
 
         // right side
         env3 = new EnvironmentGrass();
         env3.x = this.xOfRightEnvironments;
         env3.y = 0;
-        env3.speed = 10;
+        env3.speed = environmentSpeed2;
 
 
         env4 = new EnvironmentGrass();
         env4.x = this.xOfRightEnvironments;
         env4.y = 408;
-        env4.speed = 10;
+        env4.speed = environmentSpeed2;
 
         // add environments of the initialization to the container
         envs.addChild(env1);
@@ -210,12 +211,12 @@
         envLeft = new EnvironmentGrass();
         envLeft.x = this.xOfLeftEnvironments;
         envLeft.y = yOfNewEnvironments;
-        envLeft.speed = this.environmentSpeed;
+        envLeft.speed = environmentSpeed2;
 
         envRight = new EnvironmentGrass();
         envRight.x = this.xOfRightEnvironments;
         envRight.y = yOfNewEnvironments;
-        envRight.speed = this.environmentSpeed;
+        envRight.speed = environmentSpeed2;
 
         // add new environments to the container
         envs.addChild(envLeft);

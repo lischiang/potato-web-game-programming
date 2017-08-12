@@ -16,6 +16,7 @@
     p.currentGameState;
     p.currentScene;
     p.count = 0;
+    p.environmentSpeed;
 
     p.initialize = function () {
         canvas = document.getElementById('canvas');
@@ -77,20 +78,12 @@
 
         this.changeState(game.GameStates.RUN_SCENE);
 
-        this.addHoles((Math.random() * (1 - 0) + 0) + 200);
+        this.environmentSpeed = environmentSpeed1;  // environmentSpeed1 is a global variable defined in Game
 
+        this.addHoles((Math.random() * (1 - 0) + 0) + 200);
         createjs.Ticker.on('tick', this.addNewHoles, this);
 
-
-        character = new createjs.Shape();
-        character.graphics.beginFill('#A00').drawRect(0, 0, 30, 100);
-        character.name = 'myCharacter';
-        character.x = 400;
-        character.y = 450;
-        character.width = 30;
-        character.height = 100;
-        character.nextX = 400
-        stage.addChild(character);
+        this.addNewCharacter();
     }
 
     p.gameStateGame2 = function () {
@@ -103,20 +96,12 @@
 
         this.changeState(game.GameStates.RUN_SCENE);
 
-        this.addHoles((Math.random() * (1 - 0) + 0) + 200);
+        this.environmentSpeed = environmentSpeed2;   // environmentSpeed2 is a global variable defined in Game2
 
+        this.addHoles((Math.random() * (1 - 0) + 0) + 200);
         createjs.Ticker.on('tick', this.addNewHoles, this);
 
-
-        character = new createjs.Shape();
-        character.graphics.beginFill('#A00').drawRect(0, 0, 30, 100);
-        character.name = 'myCharacter';
-        character.x = 400;
-        character.y = 450;
-        character.width = 30;
-        character.height = 100;
-        character.nextX = 400
-        stage.addChild(character);
+        this.addNewCharacter();      
     }
 
     p.gameStateGameOver = function () {
@@ -129,6 +114,17 @@
         this.changeState(game.GameStates.RUN_SCENE);
     }
 
+    p.addNewCharacter = function () {
+        character = new createjs.Shape();
+        character.graphics.beginFill('#A00').drawRect(0, 0, 30, 100);
+        //character.name = 'myCharacter';
+        character.x = 400;
+        character.y = 450;
+        character.width = 30;
+        character.height = 100;
+        character.nextX = 400
+        stage.addChild(character);
+    }
 
     p.addHoles = function (myX) {
 
@@ -141,7 +137,7 @@
         hole.scaleX = 0.2;
         hole.scaleY = 0.2;
         //hole.y = 10;
-        hole.speed = environmentSpeed1;
+        hole.speed = this.environmentSpeed;
         hole.width = 60;
         hole.height = 55;
         holes.push(hole);
