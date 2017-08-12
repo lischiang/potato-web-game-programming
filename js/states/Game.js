@@ -22,7 +22,8 @@
     p.statusBox = null;
     p.distanceStep = 0.005;
 
-    p.environmentSpeed = 10;
+    //p.environmentSpeed = 10;
+    environmentSpeed1 = 20;
     p.xOfLeftEnvironments = -55;
     p.xOfRightEnvironments = 600;
 
@@ -92,7 +93,7 @@
                     //generate a new hole in order to continue playing.
 
                     hole = new createjs.Bitmap('img/hole.png')
-                    hole.speed = 10;    // >>>>>>>>>  this should be this.environmentSpeed, but gives bug if changed
+                    hole.speed = environmentSpeed1;    // >>>>>>>>>  this should be environmentSpeed1, but gives bug if changed
                     hole.width = 60;
                     hole.height = 55;
                     var myX = Math.random() * (1 - 0) + 0;
@@ -151,7 +152,7 @@
         road.y = -250;
         road.scaleX = 3.738;
         road.scaleY = 3.738;
-        road.speed = this.environmentSpeed;
+        road.speed = environmentSpeed1;
 
         this.roadContainer.addChild(road);
     }
@@ -191,35 +192,35 @@
         env1 = new EnvironmentDesert();
         env1.x = this.xOfLeftEnvironments;
         env1.y = 0;
-        env1.speed = this.environmentSpeed;
+        env1.speed = environmentSpeed1;
 
 
         env2 = new EnvironmentDesert();
         env2.x = this.xOfLeftEnvironments;
         env2.y = 256;
-        env2.speed = this.environmentSpeed;
+        env2.speed = environmentSpeed1;
 
         env3 = new EnvironmentDesert();
         env3.x = this.xOfLeftEnvironments;
         env3.y = 512;
-        env3.speed = this.environmentSpeed;
+        env3.speed = environmentSpeed1;
 
         // right side
         env4 = new EnvironmentDesert();
         env4.x = this.xOfRightEnvironments;
         env4.y = 0;
-        env4.speed = this.environmentSpeed;
+        env4.speed = environmentSpeed1;
 
 
         env5 = new EnvironmentDesert();
         env5.x = this.xOfRightEnvironments;
         env5.y = 256;
-        env5.speed = this.environmentSpeed;
+        env5.speed = environmentSpeed1;
 
         env6 = new EnvironmentDesert();
         env6.x = this.xOfRightEnvironments;
         env6.y = 512;
-        env6.speed = this.environmentSpeed;
+        env6.speed = environmentSpeed1;
 
         // add environments of the initialization to the container
         envs.addChild(env1);
@@ -238,12 +239,12 @@
         envLeft = new EnvironmentDesert();
         envLeft.x = this.xOfLeftEnvironments;
         envLeft.y = yOfNewEnvironments;
-        envLeft.speed = this.environmentSpeed;
+        envLeft.speed = environmentSpeed1;
 
         envRight = new EnvironmentDesert();
         envRight.x = this.xOfRightEnvironments;
         envRight.y = yOfNewEnvironments;
-        envRight.speed = this.environmentSpeed;
+        envRight.speed = environmentSpeed1;
 
         // add new environments to the container
         envs.addChild(envLeft);

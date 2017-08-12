@@ -141,7 +141,7 @@
         hole.scaleX = 0.2;
         hole.scaleY = 0.2;
         //hole.y = 10;
-        hole.speed = 10;
+        hole.speed = environmentSpeed1;
         hole.width = 60;
         hole.height = 55;
         holes.push(hole);
