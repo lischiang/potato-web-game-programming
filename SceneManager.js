@@ -83,6 +83,9 @@
 
         this.environmentSpeed = environmentSpeed1;  // environmentSpeed1 is a global variable defined in Game
 
+        // remove previous holes
+        //this.removeAllHoles();
+       
         this.addHoles((Math.random() * (1 - 0) + 0) + 200);
         createjs.Ticker.on('tick', this.addNewHoles, this);
 
@@ -101,6 +104,10 @@
 
         this.environmentSpeed = environmentSpeed2;   // environmentSpeed2 is a global variable defined in Game2
 
+        // remove previous holes
+        //this.removeAllHoles();
+        //stage.removeChild(character);
+
         this.addHoles((Math.random() * (1 - 0) + 0) + 200);
         createjs.Ticker.on('tick', this.addNewHoles, this);
 
@@ -118,13 +125,16 @@
     }
 
     p.addNewCharacter = function () {
-        character = new createjs.Shape();
-        character.graphics.beginFill('#A00').drawRect(0, 0, 30, 100);
+        character = new createjs.Bitmap('img/potato_riding1.png')
+        // character = new createjs.Shape();
+        // character.graphics.beginFill('#A00').drawRect(0, 0, 30, 100);
         //character.name = 'myCharacter';
+        character.scaleX = 0.6;
+        character.scaleY = 0.6;
         character.x = 400;
         character.y = 450;
         character.width = 30;
-        character.height = 100;
+        character.height = 80;
         character.nextX = 400
         stage.addChild(character);
     }
@@ -145,7 +155,7 @@
         hole.height = 55;
         holes.push(hole);
         stage.addChild(hole);
-
+ 
     }
 
     p.addGum = function (myX) {
@@ -187,7 +197,7 @@
         var numberOfSimultaneousGums = 1;
 
         //console.log("random:" + random );
-        if (random % 100 == 0){
+        if (random % 10 == 0){
             if (len < numberOfSimultaneousGums) {
                 var myXGum = Math.random();
                 myXGum = myXGum * (this.roadWidth-40) + this.environmentWidth;
@@ -228,6 +238,23 @@
             }
         }
     }
+
+    // p.removeAllHoles = function () {
+    //     var len = holes.length;
+
+    //     for (var i = 0; i < len; i++) {
+    //         var myHole;
+    //         if (holes[i] != null) {
+    //             myHole = holes[i];
+                
+    //             holes.splice(i, 1);
+    //             stage.removeChild(myHole);
+                
+    //         }
+    //     }
+    //     console.log("num of holes: " + holes.length);
+    // }
+
 
     p.gameStateRunScene = function () {
         if (this.currentScene.run) {

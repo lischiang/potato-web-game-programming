@@ -19,9 +19,11 @@
     environmentSpeed1 = 6; // defining this variable globally (can be read in SceneManager)
     p.xOfLeftEnvironments = -55;
     p.xOfRightEnvironments = 600;
+    
 
 
     p.initialize = function () {
+        //console.log("global speed " + globalSpeed);
         this.Container_initialize();
 
         this.createRoadsContainer();
@@ -364,7 +366,7 @@
                     // collision detected!
                     console.log("hit Gum!");
 
-                    //this.updateAndCheckGameAfterHit();
+                    this.slowGame();
                 }
             }
 
@@ -409,9 +411,46 @@
         }
     }
 
+    p.slowGame = function () {
+        environmentSpeed1 = 3;
+
+        // update speed of the holes in the game
+        var len = holes.length;
+
+        for (var i = 0; i < len; i++) {
+            var myHole;
+            if (holes[i] != null) {
+                holes[i].speed = 3;
+                
+                //holes.splice(i, 1);
+                //stage.removeChild(myHole);
+                
+            }
+        }
+    }
+
+    //  p.removeAllHoles = function () {
+    //     var len = holes.length;
+
+    //     for (var i = 0; i < len; i++) {
+    //         var myHole;
+    //         //if (holes[i] != null) {
+    //             myHole = holes[i];
+                
+    //             holes.splice(i, 1);
+    //             stage.removeChild(myHole);
+                
+    //         //}
+    //     }
+    //     console.log("num of holes: " + holes.length);
+    // }
+
     p.checkGame = function () {
         if (this.distanceRun >= 1)
         {
+            // remove all the chewing gums and oil spots >>>>>>>>>>>>>>>>>>> REMOVE HOLES!!!!!!           
+            //this.removeAllHoles();
+            
             this.dispatchEvent(game.GameStateEvents.GAME2);
         }
     }

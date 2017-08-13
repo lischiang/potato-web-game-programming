@@ -25,17 +25,50 @@
     p.initialize = function () {
         this.Container_initialize();
 
-        //this.addBG();
         this.createRoadsContainer();
         this.addRoad();
 
-        //this.addLines();
+        //this.removeAllHoles();
+
         this.createEnvironmentContainer();
         this.addFirstTimeEnvironments();
 
         this.createStatusBoxContainer();
         this.addStatusBox();
     }
+
+    // p.removeAllHoles = function () {
+    //     var len = holes.length;
+
+    //     for (var i = 0; i < len; i++) {
+    //         var myHole;
+    //         if (holes[i] != null) {
+    //             myHole = holes[i];
+                
+    //             holes.splice(i, 1);
+    //             stage.removeChild(myHole);
+                
+    //         }
+    //     }
+    //     console.log("num of holes: " + holes.length);
+    // }
+
+    // p.removeAllGums = function () {
+    //     var len = gums.length;
+
+    //     for (var i = 0; i < len; i++) {
+    //         var myGum;
+    //         if (gums[i] != null) {
+    //             myGum = gums[i];
+                
+    //             gums.splice(i, 1);
+    //             stage.removeChild(myGum);
+                
+    //         }
+    //     }
+    //     console.log("num of gums: " + gums.length);
+    // }
+
 
     p.createStatusBoxContainer = function () {
         this.statusBoxContainer = new createjs.Container();
@@ -206,7 +239,7 @@
     p.addEnvironments = function () {
         var envLeft, envRight;
         var envs = this.environmentContainer;
-        var yOfNewEnvironments = -398;
+        var yOfNewEnvironments = -408 + environmentSpeed2;
 
         envLeft = new EnvironmentGrass();
         envLeft.x = this.xOfLeftEnvironments;
