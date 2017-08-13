@@ -16,7 +16,7 @@
     p.environmentContainer = null;
     p.roadContainer = null;
     p.statusBox = null;
-    p.distanceStep = 0.005;
+    p.distanceStep = 0.002;
     environmentSpeed2 = 10; // defining this variable globally (can be read in SceneManager)
     p.xOfLeftEnvironments = -55;
     p.xOfRightEnvironments = 600;
@@ -255,7 +255,7 @@
     p.update = function () {
 
         if (!createjs.Ticker.getPaused()) {
-            var line, nextY, len, tree, bG;
+            var line, nextY, len, tree, bG, lenGum;
        
             len = this.roadContainer.getNumChildren();
             for (var i = 0; i < len; i++) {
@@ -279,6 +279,13 @@
                 myHole.nextY = nextY;
             }
 
+            lenGum = gums.length;
+            var myGum;
+            for (var i = 0; i < lenGum; i++) {
+                myGum = gums[i];
+                nextY = myGum.y + myGum.speed;
+                myGum.nextY = nextY;
+            }
 
             var nextX;
 
@@ -306,6 +313,7 @@
 
         if (!createjs.Ticker.getPaused()) {
 
+            // update road
             var bG
             var len = this.roadContainer.getNumChildren();
             for (var i = 0; i < len; i++) {
@@ -313,7 +321,7 @@
                 bG.y = bG.nextY;
             }
 
-
+            // update holes and check collision
             len = holes.length;
             var myHole;
 
@@ -321,6 +329,7 @@
                 myHole = holes[i];
                 myHole.y = myHole.nextY;
 
+                // check collision
                 if (myHole.x < character.x + character.width &&
                     myHole.x + myHole.width > character.x &&
                     myHole.y < character.y + character.height &&
@@ -337,6 +346,27 @@
                 } 
             }
 
+            // update gums
+            len = gums.length;
+            console.log("gums >>>>>>" + len);
+            var myGum;
+
+            for (var i = 0; i < len; i++) {
+                myGum = gums[i];
+                myGum.y = myGum.nextY;
+
+                if (myGum.x < character.x + character.width && // >>>>>>>>>>> maybe better give some tollerance
+                    myGum.x + myGum.width > character.x &&
+                    myGum.y < character.y + character.height &&
+                    myGum.height + myGum.y > character.y) {
+                    // collision detected!
+                    console.log("hit Gum!");
+
+                    //this.updateAndCheckGameAfterHit();
+                }
+            }
+
+            // update environment
             var env;
             len = this.environmentContainer.getNumChildren();
             for (var i = 0; i < len; i++) {
@@ -352,9 +382,11 @@
                 statusBox.updateBar(this.distanceRun);
             }
 
+            // update character
             character.x = character.nextX;
-            stage.update();
 
+            // update stage
+            stage.update();
         }
     }
 

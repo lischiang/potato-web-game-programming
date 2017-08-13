@@ -15,8 +15,8 @@
     p.environmentContainer = null;
     p.roadContainer = null;   
     p.statusBox = null;
-    p.distanceStep = 0.005;
-    environmentSpeed1 = 20; // defining this variable globally (can be read in SceneManager)
+    p.distanceStep = 0.002;
+    environmentSpeed1 = 6; // defining this variable globally (can be read in SceneManager)
     p.xOfLeftEnvironments = -55;
     p.xOfRightEnvironments = 600;
 
@@ -59,14 +59,11 @@
             case 37:
                 leftKeyDown = true;
                 rightKeyDown = false
-                //character.x = character.x -10;
-                //createjs.Tween.get(this.character).to({ x: character.x -10, y: character.y }, 50, createjs.Ease.quadOut);
                 break;
             case 39:
                 rightKeyDown = true;
                 leftKeyDown = false;
                 break;
-
             case 32:
                 togglePause = !togglePause;
 
@@ -110,7 +107,6 @@
         switch (e.keyCode) {
             case 37:
                 leftKeyDown = false;
-
                 break;
             case 39:
                 rightKeyDown = false;
@@ -120,13 +116,8 @@
     }
 
     p.createRoadsContainer = function () {
-
-        // this.linesContainer = new createjs.Container();
-        // this.addChild(this.linesContainer);
-
         this.roadContainer = new createjs.Container();
         this.addChild(this.roadContainer);
-
     }
 
     p.createEnvironmentContainer = function () {
@@ -135,11 +126,6 @@
     }
 
     p.addRoad = function () {
-        // var road = new createjs.Shape();
-        // road.graphics.beginFill('#DDC').drawRect(0, 0, 400, 600);
-        // road.x = 200;
-        // road.y = 0;
-
         var road = new createjs.Bitmap('img/road_grey.png');
         road.x = 200;
         road.y = -250;
@@ -151,14 +137,12 @@
     }
 
     p.addingNewRoad = function () {
-        //var lineDiv = 120;
         var road;
         var roads = this.roadContainer;
         var len = roads.getNumChildren();
         road = roads.getChildAt(len - 1);
         if (road.y >= 1) {  // whenever the last added road has y=1, add a new road
             this.addRoad();
-
         }
     }
 
@@ -174,7 +158,6 @@
                 }
             }
         }
-
     }
 
     p.addFirstTimeEnvironments = function () {
@@ -276,7 +259,7 @@
     p.update = function () {
 
         if (!createjs.Ticker.getPaused()) {
-            var line, nextY, len, tree, bG;
+            var line, nextY, len, tree, bG, lenGum;
 
             len = this.roadContainer.getNumChildren();
             for (var i = 0; i < len; i++) {
@@ -300,6 +283,13 @@
                 myHole.nextY = nextY;
             }
 
+            lenGum = gums.length;
+            var myGum;
+            for (var i = 0; i < lenGum; i++) {
+                myGum = gums[i];
+                nextY = myGum.y + myGum.speed;
+                myGum.nextY = nextY;
+            }
 
             var nextX;
 
@@ -313,9 +303,6 @@
                 }
             } else if (rightKeyDown && character.x < 600 - character.width) {
                 nextX = character.x + 10;
-                // if(nextX > stage.canvas.width - this.character.width){
-                //     nextX = stage.canvas.width - this.character.width;
-                // }
                 character.nextX = nextX;
             }
 
@@ -329,6 +316,7 @@
 
         if (!createjs.Ticker.getPaused()) {
 
+            // update road
             var bG
             var len = this.roadContainer.getNumChildren();
             for (var i = 0; i < len; i++) {
@@ -336,7 +324,7 @@
                 bG.y = bG.nextY;
             }
 
-
+            // update holes and check collision
             len = holes.length;
             var myHole;
 
@@ -344,6 +332,7 @@
                 myHole = holes[i];
                 myHole.y = myHole.nextY;
 
+                // check collision
                 if (myHole.x < character.x + character.width && // >>>>>>>>>>> maybe better give some tollerance
                     myHole.x + myHole.width > character.x &&
                     myHole.y < character.y + character.height &&
@@ -356,20 +345,35 @@
                     this.updateAndCheckGameAfterHit();
 
                     togglePause = true;
-
-                } else {
-                    // no collision
-
                 }
-
             }
 
+            // update gums
+            len = gums.length;
+            console.log("gums >>>>>>" + len);
+            var myGum;
+
+            for (var i = 0; i < len; i++) {
+                myGum = gums[i];
+                myGum.y = myGum.nextY;
+
+                if (myGum.x < character.x + character.width && // >>>>>>>>>>> maybe better give some tollerance
+                    myGum.x + myGum.width > character.x &&
+                    myGum.y < character.y + character.height &&
+                    myGum.height + myGum.y > character.y) {
+                    // collision detected!
+                    console.log("hit Gum!");
+
+                    //this.updateAndCheckGameAfterHit();
+                }
+            }
+
+            // update environment
             var env;
             len = this.environmentContainer.getNumChildren();
             for (var i = 0; i < len; i++) {
                 env = this.environmentContainer.getChildAt(i);
                 env.y = env.nextY;
-
             }
 
             // update distance bar
@@ -379,9 +383,11 @@
                 statusBox.updateBar(this.distanceRun);
             }
 
+            // update character
             character.x = character.nextX;
-            stage.update();
 
+            // update stage
+            stage.update();
         }
     }
 
@@ -422,7 +428,6 @@
         this.togglePause();
         window.onkeydown = this.movePlayer;
         window.onkeyup = this.stopPlayer;
-
     }
 
     window.game.Game = Game;

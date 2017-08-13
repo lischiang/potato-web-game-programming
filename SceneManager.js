@@ -17,6 +17,9 @@
     p.currentScene;
     p.count = 0;
     p.environmentSpeed;
+    p.roadWidth = 400;
+    p.roadLenght = 600;
+    p.environmentWidth = 200;
 
     p.initialize = function () {
         canvas = document.getElementById('canvas');
@@ -134,8 +137,8 @@
 
         hole = new createjs.Bitmap('img/hole.png')
         hole.x = myX;
-        hole.scaleX = 0.2;
-        hole.scaleY = 0.2;
+        hole.scaleX = 0.15;
+        hole.scaleY = 0.15;
         hole.y = -30;
         hole.speed = this.environmentSpeed;
         hole.width = 60;
@@ -145,11 +148,24 @@
 
     }
 
+    p.addGum = function (myX) {
+        gum = new createjs.Bitmap('img/gum.png')
+        gum.x = myX;
+        gum.scaleX = 0.15;
+        gum.scaleY = 0.15;
+        gum.y = -35;
+        gum.speed = this.environmentSpeed;
+        gum.width = 35;
+        gum.height = 35;
+        gums.push(gum);
+        stage.addChild(gum);
+    }
+
     p.addNewHoles = function () {
         var len = holes.length;
         var myY = Math.random() * (1 - 0) + 0;
         myY = myY*600;
-        var numberOfSimultaneousHoles = 4;
+        var numberOfSimultaneousHoles = 3;
         if (holes[0].y >= myY ) {
             if (len <= numberOfSimultaneousHoles) {
                 var myX = Math.random() * (1 - 0) + 0;
@@ -163,12 +179,28 @@
 
         this.removeHoles();
 
+        // add new chewing gums
+
+        len = gums.length;
+        var random = Math.random() * 1000 // random num, >=0 and <=1000
+        random = random.toFixed(0);     // round the number to have 0 decimal numbers
+        var numberOfSimultaneousGums = 1;
+
+        //console.log("random:" + random );
+        if (random % 100 == 0){
+            if (len < numberOfSimultaneousGums) {
+                var myXGum = Math.random();
+                myXGum = myXGum * (this.roadWidth-40) + this.environmentWidth;
+                console.log(myXGum);
+                this.addGum(myXGum);
+            }   
+        } 
+        this.removeGums();
 
     }
 
     p.removeHoles = function () {
         var len = holes.length;
-
 
         for (var i = 0; i < len; i++) {
             var myHole;
@@ -178,11 +210,23 @@
                     holes.splice(i, 1);
                     stage.removeChild(myHole);
                 }
-
             }
         }
+    }
 
+    p.removeGums = function () {
+        var len = gums.length;
 
+        for (var i = 0; i < len; i++) {
+            var myGum;
+            if (gums[i] != null) {
+                myGum = gums[i];
+                if (myGum.y >= this.roadLenght) {
+                    gums.splice(i, 1);
+                    stage.removeChild(myGum);
+                }
+            }
+        }
     }
 
     p.gameStateRunScene = function () {
