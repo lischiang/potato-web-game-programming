@@ -97,10 +97,8 @@
                     holes.push(hole);
                     stage.addChild(hole);
                 }
-
                 break;
         }
-
     }
 
     p.stopPlayer = function (e) {
@@ -355,7 +353,7 @@
 
             // update gums
             len = gums.length;
-            console.log("gums >>>>>>" + len);
+            //console.log("gums >>>>>>" + len);
             var myGum;
 
             for (var i = 0; i < len; i++) {
@@ -425,8 +423,7 @@
 
         // update speed of the gums in the game
         len = gums.length;
-        for (var i = 0; i < len; i++) {
-            
+        for (var i = 0; i < len; i++) {           
             if (gums[i] != null) {
                 gums[i].speed = globalSpeed;    
             }
@@ -434,7 +431,6 @@
 
         // update the speed of the environment in the game
         len = this.environmentContainer.getNumChildren();
-        console.log("len envir " + len);
         var env;
         for (var i = 0; i < len; i++) {
             env = this.environmentContainer.getChildAt(i);
@@ -443,7 +439,6 @@
 
         // update the speed of the roads in the game
         len = this.roadContainer.getNumChildren();
-        console.log("len road " + len);
         var road;
         for (var i = 0; i < len; i++) {
             road = this.roadContainer.getChildAt(i);
@@ -453,12 +448,14 @@
 
     p.slowGame = function () {
         globalSpeed = 4;        // set slower speed
+        this.distanceStep = 0.0005;
         this.speedCounter = 0;  // reset timer for the change of speed 
         this.updateSpeed();     // update the speed of the objects in the scene
     }
 
     p.normalizeSpeed = function () {
         globalSpeed = 8;        // restore normal speed of the level
+        this.distanceStep = 0.001;
         this.updateSpeed();     // update the speed of the objects in the scene
     }
 

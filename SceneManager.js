@@ -192,12 +192,10 @@
         random = random.toFixed(0);     // round the number to have 0 decimal numbers
         var numberOfSimultaneousGums = 1;
 
-        //console.log("random:" + random );
         if (random % 100 == 0){
             if (len < numberOfSimultaneousGums) {
                 var myXGum = Math.random();
                 myXGum = myXGum * (this.roadWidth-40) + this.environmentWidth;
-                console.log(myXGum);
                 this.addGum(myXGum);
             }   
         } 
