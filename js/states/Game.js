@@ -9,8 +9,8 @@
     var p = Game.prototype = new createjs.Container();
 
     p.Container_initialize = p.initialize;
-    p.lifeCounter = 10;  // number of lives
-    p.distanceRun = 0;  // distance already run
+    p.lifeCounter = 3;  // number of lives
+    p.distanceRun = 0;   // distance already run
     p.statusBoxContainer = null;
     p.environmentContainer = null;
     p.roadContainer = null;   
@@ -29,7 +29,6 @@
         this.createRoadsContainer();
         this.addRoad();
 
-        //this.addLines();
         this.createEnvironmentContainer();
         this.addFirstTimeEnvironments();
 
@@ -309,7 +308,7 @@
             // update distance already run
             this.distanceRun += this.distanceStep;
 
-            // // update speed counter 
+            // update speed counter 
             this.speedCounter += 1;
         }
 
@@ -447,16 +446,16 @@
     }
 
     p.slowGame = function () {
-        globalSpeed = 4;        // set slower speed
-        this.distanceStep = 0.0005;
-        this.speedCounter = 0;  // reset timer for the change of speed 
-        this.updateSpeed();     // update the speed of the objects in the scene
+        globalSpeed = 4;                // set slower speed
+        this.distanceStep = 0.0005;     // slow down the distance bar
+        this.speedCounter = 0;          // reset timer for the change of speed 
+        this.updateSpeed();             // update the speed of the objects in the scene
     }
 
     p.normalizeSpeed = function () {
-        globalSpeed = 8;        // restore normal speed of the level
-        this.distanceStep = 0.001;
-        this.updateSpeed();     // update the speed of the objects in the scene
+        globalSpeed = 8;            // restore normal speed of the level
+        this.distanceStep = 0.001;  // restore distance bar speed
+        this.updateSpeed();         // update the speed of the objects in the scene
     }
 
     //  p.removeAllHoles = function () {

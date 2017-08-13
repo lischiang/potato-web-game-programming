@@ -9,17 +9,18 @@
     var p = Game2.prototype = new createjs.Container();
 
     p.Container_initialize = p.initialize;
-
-    p.lifeCounter = 3;  // number of lives
+    p.lifeCounter = 10;  // number of lives
     p.distanceRun = 0;  // distance already run
     p.statusBoxContainer = null;
     p.environmentContainer = null;
     p.roadContainer = null;
     p.statusBox = null;
-    p.distanceStep = 0.002;
-    environmentSpeed2 = 10; // defining this variable globally (can be read in SceneManager)
+    p.distanceStep = 0.001;
+    //environmentSpeed2 = 10; // defining this variable globally (can be read in SceneManager)
     p.xOfLeftEnvironments = -55;
     p.xOfRightEnvironments = 600;
+    p.speedCounter = 300;  
+    p.hitGum = false;
 
 
     p.initialize = function () {
@@ -124,16 +125,14 @@
                     hole.scaleX = 0.2;
                     hole.scaleY = 0.2;
                     //hole.y = 10;
-                    hole.speed = environmentSpeed2;
+                    hole.speed = globalSpeed;
                     hole.width = 60;
                     hole.height = 55;
                     holes.push(hole);
                     stage.addChild(hole);
                 }
-
                 break;
         }
-
     }
 
     p.stopPlayer = function (e) {
@@ -152,10 +151,8 @@
     }
 
     p.createRoadsContainer = function () {
-
         this.roadContainer = new createjs.Container();
         this.addChild(this.roadContainer);
-
     }
 
     p.createEnvironmentContainer = function () {
@@ -164,13 +161,12 @@
     }
 
     p.addRoad = function () {
-
         var road = new createjs.Bitmap('img/road_grey.png');
         road.x = 200;
         road.y = -250;
         road.scaleX = 3.738;
         road.scaleY = 3.738;
-        road.speed = environmentSpeed2;
+        road.speed = globalSpeed;
 
         this.roadContainer.addChild(road);
     }
@@ -209,25 +205,25 @@
         env1 = new EnvironmentGrass();
         env1.x = this.xOfLeftEnvironments;
         env1.y = 0;
-        env1.speed = environmentSpeed2;
+        env1.speed = globalSpeed;
 
 
         env2 = new EnvironmentGrass();
         env2.x = this.xOfLeftEnvironments;
         env2.y = 408;
-        env2.speed = environmentSpeed2;
+        env2.speed = globalSpeed;
 
         // right side
         env3 = new EnvironmentGrass();
         env3.x = this.xOfRightEnvironments;
         env3.y = 0;
-        env3.speed = environmentSpeed2;
+        env3.speed = globalSpeed;
 
 
         env4 = new EnvironmentGrass();
         env4.x = this.xOfRightEnvironments;
         env4.y = 408;
-        env4.speed = environmentSpeed2;
+        env4.speed = globalSpeed;
 
         // add environments of the initialization to the container
         envs.addChild(env1);
@@ -239,17 +235,17 @@
     p.addEnvironments = function () {
         var envLeft, envRight;
         var envs = this.environmentContainer;
-        var yOfNewEnvironments = -408 + environmentSpeed2;
+        var yOfNewEnvironments = -408 + globalSpeed;
 
         envLeft = new EnvironmentGrass();
         envLeft.x = this.xOfLeftEnvironments;
         envLeft.y = yOfNewEnvironments;
-        envLeft.speed = environmentSpeed2;
+        envLeft.speed = globalSpeed;
 
         envRight = new EnvironmentGrass();
         envRight.x = this.xOfRightEnvironments;
         envRight.y = yOfNewEnvironments;
-        envRight.speed = environmentSpeed2;
+        envRight.speed = globalSpeed;
 
         // add new environments to the container
         envs.addChild(envLeft);
@@ -338,6 +334,9 @@
 
             // update distance already run
             this.distanceRun += this.distanceStep;
+
+            // update speed counter 
+            this.speedCounter += 1;
         }
 
     }
@@ -392,10 +391,9 @@
                     myGum.x + myGum.width > character.x &&
                     myGum.y < character.y + character.height &&
                     myGum.height + myGum.y > character.y) {
-                    // collision detected!
-                    console.log("hit Gum!");
 
-                    //this.updateAndCheckGameAfterHit();
+                    // collision with gum detected!                  
+                    this.slowGame();
                 }
             }
 
@@ -405,7 +403,6 @@
             for (var i = 0; i < len; i++) {
                 env = this.environmentContainer.getChildAt(i);
                 env.y = env.nextY;
-
             }
 
             // update distance bar
@@ -441,9 +438,60 @@
         }
     }
 
+    p.updateSpeed = function () {
+        // update speed of the holes in the game
+        var len = holes.length;
+        for (var i = 0; i < len; i++) {
+            
+            if (holes[i] != null) {
+                holes[i].speed = globalSpeed;    
+            }
+        }
+
+        // update speed of the gums in the game
+        len = gums.length;
+        for (var i = 0; i < len; i++) {           
+            if (gums[i] != null) {
+                gums[i].speed = globalSpeed;    
+            }
+        }
+
+        // update the speed of the environment in the game
+        len = this.environmentContainer.getNumChildren();
+        var env;
+        for (var i = 0; i < len; i++) {
+            env = this.environmentContainer.getChildAt(i);
+            env.speed = globalSpeed;
+        }
+
+        // update the speed of the roads in the game
+        len = this.roadContainer.getNumChildren();
+        var road;
+        for (var i = 0; i < len; i++) {
+            road = this.roadContainer.getChildAt(i);
+            road.speed = globalSpeed;
+        }
+    }
+
+    p.slowGame = function () {
+        globalSpeed = 6;                // set slower speed
+        this.distanceStep = 0.0005;     // slow down the distance bar
+        this.speedCounter = 0;          // reset timer for the change of speed 
+        this.updateSpeed();             // update the speed of the objects in the scene
+    }
+
+    p.normalizeSpeed = function () {
+        globalSpeed = 12;            // restore normal speed of the level
+        this.distanceStep = 0.001;  // restore distance bar speed
+        this.updateSpeed();         // update the speed of the objects in the scene
+    }
+
+
     p.checkGame = function () {
         if (this.distanceRun >= 1)
         {
+            // remove all the chewing gums and oil spots >>>>>>>>>>>>>>>>>>> REMOVE HOLES!!!!!!           
+
             this.dispatchEvent(game.GameStateEvents.MAIN_MENU);
         }
     }
@@ -458,6 +506,11 @@
         this.addingNewEnvironments();
         this.eraseOldEnvironments();
         this.togglePause();
+
+        if (this.speedCounter > 300) {  // whene the timer has reached 300, restore the normal speed
+            this.normalizeSpeed();
+        }
+
         window.onkeydown = this.movePlayer;
         window.onkeyup = this.stopPlayer;
 

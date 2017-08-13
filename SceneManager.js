@@ -198,7 +198,7 @@
                 myXGum = myXGum * (this.roadWidth-40) + this.environmentWidth;
                 this.addGum(myXGum);
             }   
-        } 
+        }  
         this.removeGums();
 
     }
