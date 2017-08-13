@@ -168,6 +168,19 @@
         stage.addChild(gum);
     }
 
+    p.addOil = function (myX) {
+        oil = new createjs.Bitmap('img/oil.png')
+        oil.x = myX;
+        oil.scaleX = 0.2;
+        oil.scaleY = 0.2;
+        oil.y = -35;
+        oil.speed = globalSpeed;
+        oil.width = 35;
+        oil.height = 35;
+        oils.push(oil);
+        stage.addChild(oil);
+    }
+
     p.addNewHoles = function () {
         var len = holes.length;
         var myY = Math.random() * (1 - 0) + 0;
@@ -201,6 +214,22 @@
         }  
         this.removeGums();
 
+        // add new oil spots
+
+        len = oils.length;
+        random = Math.random() * 1000   // random num, >=0 and <=1000
+        random = random.toFixed(0);     // round the number to have 0 decimal numbers
+        var numberOfSimultaneousOils = 1;
+
+        if (random % 100 == 0){
+            if (len < numberOfSimultaneousOils) {
+                var myXOil = Math.random();
+                myXOil = myXOil * (this.roadWidth-40) + this.environmentWidth;
+                this.addOil(myXOil);
+            }   
+        }  
+        this.removeOils();
+
     }
 
     p.removeHoles = function () {
@@ -228,6 +257,21 @@
                 if (myGum.y >= this.roadLenght) {
                     gums.splice(i, 1);
                     stage.removeChild(myGum);
+                }
+            }
+        }
+    }
+
+    p.removeOils = function () {
+        var len = oils.length;
+
+        for (var i = 0; i < len; i++) {
+            var myOil;
+            if (oils[i] != null) {
+                myOil = oils[i];
+                if (myOil.y >= this.roadLenght) {
+                    oils.splice(i, 1);
+                    stage.removeChild(myOil);
                 }
             }
         }

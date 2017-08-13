@@ -9,7 +9,7 @@
     var p = Game2.prototype = new createjs.Container();
 
     p.Container_initialize = p.initialize;
-    p.lifeCounter = 10;  // number of lives
+    p.lifeCounter = 5;  // number of lives
     p.distanceRun = 0;  // distance already run
     p.statusBoxContainer = null;
     p.environmentContainer = null;
@@ -20,7 +20,6 @@
     p.xOfLeftEnvironments = -55;
     p.xOfRightEnvironments = 600;
     p.speedCounter = 300;  
-    p.hitGum = false;
 
 
     p.initialize = function () {
@@ -284,7 +283,7 @@
     p.update = function () {
 
         if (!createjs.Ticker.getPaused()) {
-            var line, nextY, len, tree, bG, lenGum;
+            var line, nextY, len, tree, bG, lenGum, lenOil;
        
             len = this.roadContainer.getNumChildren();
             for (var i = 0; i < len; i++) {
@@ -314,6 +313,14 @@
                 myGum = gums[i];
                 nextY = myGum.y + myGum.speed;
                 myGum.nextY = nextY;
+            }
+
+            lenOil = oils.length;
+            var myOil;
+            for (var i = 0; i < lenOil; i++) {
+                myOil = oils[i];
+                nextY = myOil.y + myOil.speed;
+                myOil.nextY = nextY;
             }
 
             var nextX;
@@ -394,6 +401,31 @@
 
                     // collision with gum detected!                  
                     this.slowGame();
+
+                    // remove gum
+                    stage.removeChild(myGum);
+                }
+            }
+
+            // update oils
+            len = oils.length;
+            //console.log("oils >>>>>>" + len);
+            var myOil;
+
+            for (var i = 0; i < len; i++) {
+                myOil = oils[i];
+                myOil.y = myOil.nextY;
+
+                if (myOil.x < character.x + character.width && // >>>>>>>>>>> maybe better give some tollerance
+                    myOil.x + myOil.width > character.x &&
+                    myOil.y < character.y + character.height &&
+                    myOil.height + myOil.y > character.y) {
+
+                    // collision with oil detected!                  
+                    this.fastGame();
+                    
+                    // remove oil spot
+                    stage.removeChild(myOil);
                 }
             }
 
@@ -456,6 +488,14 @@
             }
         }
 
+        // update speed of the oil spots in the game
+        len = oils.length;
+        for (var i = 0; i < len; i++) {           
+            if (oils[i] != null) {
+                oils[i].speed = globalSpeed;    
+            }
+        }
+
         // update the speed of the environment in the game
         len = this.environmentContainer.getNumChildren();
         var env;
@@ -476,6 +516,13 @@
     p.slowGame = function () {
         globalSpeed = 6;                // set slower speed
         this.distanceStep = 0.0005;     // slow down the distance bar
+        this.speedCounter = 0;          // reset timer for the change of speed 
+        this.updateSpeed();             // update the speed of the objects in the scene
+    }
+
+    p.fastGame = function () {
+        globalSpeed = 18;               // set faster speed
+        this.distanceStep = 0.0015;     // speed up the distance bar
         this.speedCounter = 0;          // reset timer for the change of speed 
         this.updateSpeed();             // update the speed of the objects in the scene
     }
