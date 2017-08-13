@@ -9,21 +9,21 @@
     var p = Game.prototype = new createjs.Container();
 
     p.Container_initialize = p.initialize;
-    p.lifeCounter = 3;  // number of lives
+    p.lifeCounter = 10;  // number of lives
     p.distanceRun = 0;  // distance already run
     p.statusBoxContainer = null;
     p.environmentContainer = null;
     p.roadContainer = null;   
     p.statusBox = null;
-    p.distanceStep = 0.002;
-    environmentSpeed1 = 6; // defining this variable globally (can be read in SceneManager)
+    p.distanceStep = 0.001;
+    //environmentSpeed1 = 6; // defining this variable globally (can be read in SceneManager)
     p.xOfLeftEnvironments = -55;
     p.xOfRightEnvironments = 600;
-    
+    p.speedCounter = 300;  
+    p.hitGum = false;
 
 
     p.initialize = function () {
-        //console.log("global speed " + globalSpeed);
         this.Container_initialize();
 
         this.createRoadsContainer();
@@ -85,7 +85,7 @@
                     //generate a new hole in order to continue playing.
 
                     hole = new createjs.Bitmap('img/hole.png')
-                    hole.speed = environmentSpeed1;    // >>>>>>>>>  this should be environmentSpeed1, but gives bug if changed
+                    hole.speed = globalSpeed;    // >>>>>>>>>  this should be environmentSpeed1, but gives bug if changed
                     hole.width = 60;
                     hole.height = 55;
                     var myX = Math.random() * (1 - 0) + 0;
@@ -133,7 +133,7 @@
         road.y = -250;
         road.scaleX = 3.738;
         road.scaleY = 3.738;
-        road.speed = environmentSpeed1;
+        road.speed = globalSpeed;
 
         this.roadContainer.addChild(road);
     }
@@ -170,35 +170,35 @@
         env1 = new EnvironmentDesert();
         env1.x = this.xOfLeftEnvironments;
         env1.y = 0;
-        env1.speed = environmentSpeed1;
+        env1.speed = globalSpeed;
 
 
         env2 = new EnvironmentDesert();
         env2.x = this.xOfLeftEnvironments;
         env2.y = 256;
-        env2.speed = environmentSpeed1;
+        env2.speed = globalSpeed;
 
         env3 = new EnvironmentDesert();
         env3.x = this.xOfLeftEnvironments;
         env3.y = 512;
-        env3.speed = environmentSpeed1;
+        env3.speed = globalSpeed;
 
         // right side
         env4 = new EnvironmentDesert();
         env4.x = this.xOfRightEnvironments;
         env4.y = 0;
-        env4.speed = environmentSpeed1;
+        env4.speed = globalSpeed;
 
 
         env5 = new EnvironmentDesert();
         env5.x = this.xOfRightEnvironments;
         env5.y = 256;
-        env5.speed = environmentSpeed1;
+        env5.speed = globalSpeed;
 
         env6 = new EnvironmentDesert();
         env6.x = this.xOfRightEnvironments;
         env6.y = 512;
-        env6.speed = environmentSpeed1;
+        env6.speed = globalSpeed;
 
         // add environments of the initialization to the container
         envs.addChild(env1);
@@ -212,17 +212,17 @@
     p.addEnvironments = function () {
         var envLeft, envRight;
         var envs = this.environmentContainer;
-        var yOfNewEnvironments = -256 + environmentSpeed1;
+        var yOfNewEnvironments = -256 + globalSpeed;
 
         envLeft = new EnvironmentDesert();
         envLeft.x = this.xOfLeftEnvironments;
         envLeft.y = yOfNewEnvironments;
-        envLeft.speed = environmentSpeed1;
+        envLeft.speed = globalSpeed;
 
         envRight = new EnvironmentDesert();
         envRight.x = this.xOfRightEnvironments;
         envRight.y = yOfNewEnvironments;
-        envRight.speed = environmentSpeed1;
+        envRight.speed = globalSpeed;
 
         // add new environments to the container
         envs.addChild(envLeft);
@@ -310,6 +310,9 @@
 
             // update distance already run
             this.distanceRun += this.distanceStep;
+
+            // // update speed counter 
+            this.speedCounter += 1;
         }
 
     }
@@ -363,9 +366,8 @@
                     myGum.x + myGum.width > character.x &&
                     myGum.y < character.y + character.height &&
                     myGum.height + myGum.y > character.y) {
-                    // collision detected!
-                    console.log("hit Gum!");
 
+                    // collision with gum detected!                  
                     this.slowGame();
                 }
             }
@@ -411,22 +413,53 @@
         }
     }
 
-    p.slowGame = function () {
-        environmentSpeed1 = 3;
-
+    p.updateSpeed = function () {
         // update speed of the holes in the game
         var len = holes.length;
-
         for (var i = 0; i < len; i++) {
-            var myHole;
+            
             if (holes[i] != null) {
-                holes[i].speed = 3;
-                
-                //holes.splice(i, 1);
-                //stage.removeChild(myHole);
-                
+                holes[i].speed = globalSpeed;    
             }
         }
+
+        // update speed of the gums in the game
+        len = gums.length;
+        for (var i = 0; i < len; i++) {
+            
+            if (gums[i] != null) {
+                gums[i].speed = globalSpeed;    
+            }
+        }
+
+        // update the speed of the environment in the game
+        len = this.environmentContainer.getNumChildren();
+        console.log("len envir " + len);
+        var env;
+        for (var i = 0; i < len; i++) {
+            env = this.environmentContainer.getChildAt(i);
+            env.speed = globalSpeed;
+        }
+
+        // update the speed of the roads in the game
+        len = this.roadContainer.getNumChildren();
+        console.log("len road " + len);
+        var road;
+        for (var i = 0; i < len; i++) {
+            road = this.roadContainer.getChildAt(i);
+            road.speed = globalSpeed;
+        }
+    }
+
+    p.slowGame = function () {
+        globalSpeed = 4;        // set slower speed
+        this.speedCounter = 0;  // reset timer for the change of speed 
+        this.updateSpeed();     // update the speed of the objects in the scene
+    }
+
+    p.normalizeSpeed = function () {
+        globalSpeed = 8;        // restore normal speed of the level
+        this.updateSpeed();     // update the speed of the objects in the scene
     }
 
     //  p.removeAllHoles = function () {
@@ -465,6 +498,11 @@
         this.addingNewEnvironments();
         this.eraseOldEnvironments();
         this.togglePause();
+
+        if (this.speedCounter > 300) {  // whene the timer has reached 300, restore the normal speed
+            this.normalizeSpeed();
+        }
+
         window.onkeydown = this.movePlayer;
         window.onkeyup = this.stopPlayer;
     }

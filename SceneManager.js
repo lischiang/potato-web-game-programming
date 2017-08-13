@@ -72,6 +72,7 @@
         this.changeState(game.GameStates.RUN_SCENE);
     }
     p.gameStateGame = function () {
+        globalSpeed = 8;    // level 1 speed
         var scene = new game.Game();
         scene.on(game.GameStateEvents.GAME2, this.onStateEvent, this, false, {state: game.GameStates.GAME2});
         scene.on(game.GameStateEvents.GAME_OVER, this.onStateEvent, this, false, {state: game.GameStates.GAME_OVER});
@@ -81,18 +82,20 @@
 
         this.changeState(game.GameStates.RUN_SCENE);
 
-        this.environmentSpeed = environmentSpeed1;  // environmentSpeed1 is a global variable defined in Game
+        //this.environmentSpeed = environmentSpeed1;  // environmentSpeed1 is a global variable defined in Game
 
         // remove previous holes
         //this.removeAllHoles();
+        //stage.removeChild(character);
        
         this.addHoles((Math.random() * (1 - 0) + 0) + 200);
         createjs.Ticker.on('tick', this.addNewHoles, this);
 
-        this.addNewCharacter();
+        this.addNewCharacter();   
     }
 
     p.gameStateGame2 = function () {
+        globalSpeed = 12;   // level 2 speed
         var scene = new game.Game2();
         scene.on(game.GameStateEvents.GAME_OVER, this.onStateEvent, this, false, {state: game.GameStates.GAME_OVER});
         scene.on(game.GameStateEvents.MAIN_MENU, this.onStateEvent, this, false, {state: game.GameStates.MAIN_MENU});
@@ -102,7 +105,7 @@
 
         this.changeState(game.GameStates.RUN_SCENE);
 
-        this.environmentSpeed = environmentSpeed2;   // environmentSpeed2 is a global variable defined in Game2
+        //this.environmentSpeed = environmentSpeed2;   // environmentSpeed2 is a global variable defined in Game2
 
         // remove previous holes
         //this.removeAllHoles();
@@ -140,22 +143,16 @@
     }
 
     p.addHoles = function (myX) {
-
-        //var hole = new createjs.Shape();
-        //hole = new createjs.Shape();
-        //hole.graphics.beginFill('#000').drawRect(0, 0, 10, 10);
-
         hole = new createjs.Bitmap('img/hole.png')
         hole.x = myX;
         hole.scaleX = 0.15;
         hole.scaleY = 0.15;
         hole.y = -30;
-        hole.speed = this.environmentSpeed;
+        hole.speed = globalSpeed;
         hole.width = 60;
         hole.height = 55;
         holes.push(hole);
-        stage.addChild(hole);
- 
+        stage.addChild(hole); 
     }
 
     p.addGum = function (myX) {
@@ -164,7 +161,7 @@
         gum.scaleX = 0.15;
         gum.scaleY = 0.15;
         gum.y = -35;
-        gum.speed = this.environmentSpeed;
+        gum.speed = globalSpeed;
         gum.width = 35;
         gum.height = 35;
         gums.push(gum);
@@ -183,7 +180,6 @@
                 //console.log(myX);
 
                 this.addHoles(myX);
-
             }
         }
 
@@ -197,7 +193,7 @@
         var numberOfSimultaneousGums = 1;
 
         //console.log("random:" + random );
-        if (random % 10 == 0){
+        if (random % 100 == 0){
             if (len < numberOfSimultaneousGums) {
                 var myXGum = Math.random();
                 myXGum = myXGum * (this.roadWidth-40) + this.environmentWidth;
