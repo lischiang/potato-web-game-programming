@@ -2,21 +2,21 @@
 
     window.game = window.game || {}
 
-    function Game2() {
+    function Game3() {
         this.initialize();
     }
 
-    var p = Game2.prototype = new createjs.Container();
+    var p = Game3.prototype = new createjs.Container();
 
     p.Container_initialize = p.initialize;
     p.lifeCounter = 8;  // number of lives
-    p.distanceRun = 0;  // distance already run
+    p.distanceRun = 0;   // distance already run
     p.statusBoxContainer = null;
     p.environmentContainer = null;
-    p.roadContainer = null;
+    p.roadContainer = null;   
     p.statusBox = null;
     p.distanceStep = 0.001;
-    //environmentSpeed2 = 10; // defining this variable globally (can be read in SceneManager)
+    //environmentSpeed1 = 6; // defining this variable globally (can be read in SceneManager)
     p.xOfLeftEnvironments = -55;
     p.xOfRightEnvironments = 600;
     p.speedCounter = 300;  
@@ -28,47 +28,12 @@
         this.createRoadsContainer();
         this.addRoad();
 
-        //this.removeAllHoles();
-
         this.createEnvironmentContainer();
         this.addFirstTimeEnvironments();
 
         this.createStatusBoxContainer();
         this.addStatusBox();
     }
-
-    // p.removeAllHoles = function () {
-    //     var len = holes.length;
-
-    //     for (var i = 0; i < len; i++) {
-    //         var myHole;
-    //         if (holes[i] != null) {
-    //             myHole = holes[i];
-                
-    //             holes.splice(i, 1);
-    //             stage.removeChild(myHole);
-                
-    //         }
-    //     }
-    //     console.log("num of holes: " + holes.length);
-    // }
-
-    // p.removeAllGums = function () {
-    //     var len = gums.length;
-
-    //     for (var i = 0; i < len; i++) {
-    //         var myGum;
-    //         if (gums[i] != null) {
-    //             myGum = gums[i];
-                
-    //             gums.splice(i, 1);
-    //             stage.removeChild(myGum);
-                
-    //         }
-    //     }
-    //     console.log("num of gums: " + gums.length);
-    // }
-
 
     p.createStatusBoxContainer = function () {
         this.statusBoxContainer = new createjs.Container();
@@ -99,34 +64,34 @@
                 rightKeyDown = true;
                 leftKeyDown = false;
                 break;
-
             case 32:
                 togglePause = !togglePause;
 
                 if (!togglePause) {
 
+                    // remove all the current holes
                     var len = holes.length;
                     for (var i = 0; i < len; i++) {
                         var myHole;
                         if (holes[0] != null) {
                             myHole = holes[0];
-                            holes.splice(0, 1);
+                            holes.splice(0, 1); // remove first element from holes
                             stage.removeChild(myHole);
                         }
                     }
 
-                    //generating a new hole in order to continue playing.
+                    //generate a new hole in order to continue playing.
 
                     hole = new createjs.Bitmap('img/hole.png')
-                    var myX = Math.random() * (1 - 0) + 0;
-                    myX = myX * 400 + 200;
-                    hole.x = myX;
-                    hole.scaleX = 0.2;
-                    hole.scaleY = 0.2;
-                    //hole.y = 10;
-                    hole.speed = globalSpeed;
+                    hole.speed = globalSpeed;    // >>>>>>>>>  this should be environmentSpeed1, but gives bug if changed
                     hole.width = 60;
                     hole.height = 55;
+                    var myX = Math.random() * (1 - 0) + 0;
+                    myX = myX * (400 - hole.width) + 200;
+                    hole.x = myX;
+                    hole.scaleX = 0.15;
+                    hole.scaleY = 0.15;
+                    //hole.y = 10;  
                     holes.push(hole);
                     stage.addChild(hole);
                 }
@@ -140,7 +105,6 @@
         switch (e.keyCode) {
             case 37:
                 leftKeyDown = false;
-
                 break;
             case 39:
                 rightKeyDown = false;
@@ -177,7 +141,6 @@
         road = roads.getChildAt(len - 1);
         if (road.y >= 1) {  // whenever the last added road has y=1, add a new road
             this.addRoad();
-
         }
     }
 
@@ -193,55 +156,66 @@
                 }
             }
         }
-
     }
 
     p.addFirstTimeEnvironments = function () {
-        var env1, env2, env3, env4;
+        var env1, env2, env3, env4, env5, env6;
         var envs = this.environmentContainer;
 
         // left side
-        env1 = new EnvironmentGrass();
+        env1 = new EnvironmentFlowers();
         env1.x = this.xOfLeftEnvironments;
         env1.y = 0;
         env1.speed = globalSpeed;
 
 
-        env2 = new EnvironmentGrass();
-        env2.x = this.xOfLeftEnvironments;
-        env2.y = 408;
-        env2.speed = globalSpeed;
+        // env2 = new EnvironmentDesert();
+        // env2.x = this.xOfLeftEnvironments;
+        // env2.y = 256;
+        // env2.speed = globalSpeed;
+
+        // env3 = new EnvironmentDesert();
+        // env3.x = this.xOfLeftEnvironments;
+        // env3.y = 512;
+        // env3.speed = globalSpeed;
 
         // right side
-        env3 = new EnvironmentGrass();
-        env3.x = this.xOfRightEnvironments;
-        env3.y = 0;
-        env3.speed = globalSpeed;
-
-
-        env4 = new EnvironmentGrass();
+        env4 = new EnvironmentFlowers();
         env4.x = this.xOfRightEnvironments;
-        env4.y = 408;
+        env4.y = 0;
         env4.speed = globalSpeed;
+
+
+        // env5 = new EnvironmentDesert();
+        // env5.x = this.xOfRightEnvironments;
+        // env5.y = 256;
+        // env5.speed = globalSpeed;
+
+        // env6 = new EnvironmentDesert();
+        // env6.x = this.xOfRightEnvironments;
+        // env6.y = 512;
+        // env6.speed = globalSpeed;
 
         // add environments of the initialization to the container
         envs.addChild(env1);
-        envs.addChild(env2);
-        envs.addChild(env3);
+        // envs.addChild(env2);
+        // envs.addChild(env3);
         envs.addChild(env4);
+        // envs.addChild(env5);
+        // envs.addChild(env6);
     }
 
     p.addEnvironments = function () {
         var envLeft, envRight;
         var envs = this.environmentContainer;
-        var yOfNewEnvironments = -408 + globalSpeed;
+        var yOfNewEnvironments = -256 + globalSpeed;
 
-        envLeft = new EnvironmentGrass();
+        envLeft = new EnvironmentFlowers();
         envLeft.x = this.xOfLeftEnvironments;
         envLeft.y = yOfNewEnvironments;
         envLeft.speed = globalSpeed;
 
-        envRight = new EnvironmentGrass();
+        envRight = new EnvironmentFlowers();
         envRight.x = this.xOfRightEnvironments;
         envRight.y = yOfNewEnvironments;
         envRight.speed = globalSpeed;
@@ -284,7 +258,7 @@
 
         if (!createjs.Ticker.getPaused()) {
             var line, nextY, len, tree, bG, lenGum, lenOil;
-       
+
             len = this.roadContainer.getNumChildren();
             for (var i = 0; i < len; i++) {
                 bG = this.roadContainer.getChildAt(i);
@@ -335,7 +309,6 @@
                 }
             } else if (rightKeyDown && character.x < 600 - character.width) {
                 nextX = character.x + 10;
-            
                 character.nextX = nextX;
             }
 
@@ -369,7 +342,7 @@
                 myHole.y = myHole.nextY;
 
                 // check collision
-                if (myHole.x < character.x + character.width &&
+                if (myHole.x < character.x + character.width && // >>>>>>>>>>> maybe better give some tollerance
                     myHole.x + myHole.width > character.x &&
                     myHole.y < character.y + character.height &&
                     myHole.height + myHole.y > character.y) {
@@ -381,13 +354,12 @@
                     this.updateAndCheckGameAfterHit();
 
                     togglePause = true;
-
-                } 
+                }
             }
 
             // update gums
             len = gums.length;
-            console.log("gums >>>>>>" + len);
+            //console.log("gums >>>>>>" + len);
             var myGum;
 
             for (var i = 0; i < len; i++) {
@@ -514,32 +486,48 @@
     }
 
     p.slowGame = function () {
-        globalSpeed = 6;                // set slower speed
+        globalSpeed = 4;                // set slower speed
         this.distanceStep = 0.0005;     // slow down the distance bar
         this.speedCounter = 0;          // reset timer for the change of speed 
         this.updateSpeed();             // update the speed of the objects in the scene
     }
 
     p.fastGame = function () {
-        globalSpeed = 18;               // set faster speed
+        globalSpeed = 12;               // set faster speed
         this.distanceStep = 0.0015;     // speed up the distance bar
         this.speedCounter = 0;          // reset timer for the change of speed 
         this.updateSpeed();             // update the speed of the objects in the scene
     }
 
     p.normalizeSpeed = function () {
-        globalSpeed = 12;            // restore normal speed of the level
+        globalSpeed = 8;            // restore normal speed of the level
         this.distanceStep = 0.001;  // restore distance bar speed
         this.updateSpeed();         // update the speed of the objects in the scene
     }
 
+    //  p.removeAllHoles = function () {
+    //     var len = holes.length;
+
+    //     for (var i = 0; i < len; i++) {
+    //         var myHole;
+    //         //if (holes[i] != null) {
+    //             myHole = holes[i];
+                
+    //             holes.splice(i, 1);
+    //             stage.removeChild(myHole);
+                
+    //         //}
+    //     }
+    //     console.log("num of holes: " + holes.length);
+    // }
 
     p.checkGame = function () {
         if (this.distanceRun >= 1)
         {
             // remove all the chewing gums and oil spots >>>>>>>>>>>>>>>>>>> REMOVE HOLES!!!!!!           
-
-            this.dispatchEvent(game.GameStateEvents.GAME_WIN);
+            //this.removeAllHoles();
+            
+            this.dispatchEvent(game.GameStateEvents.GAME2);
         }
     }
 
@@ -560,9 +548,8 @@
 
         window.onkeydown = this.movePlayer;
         window.onkeyup = this.stopPlayer;
-
     }
 
-    window.game.Game2 = Game2;
+    window.game.Game3 = Game3;
 
 }(window));

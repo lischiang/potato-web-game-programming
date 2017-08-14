@@ -8,13 +8,15 @@
         RUN_SCENE:1,
         GAME:10,
         GAME:12,
-        GAME_OVER:20
+        GAME_OVER:20,
+        GAME_WIN:30
     }
 
     var GameStateEvents = {
         MAIN_MENU:'main menu event',
         INSTRUCTIONS:'instructions scene',
         GAME_OVER:'game over event',
+        GAME_WIN: 'game win event',
         MAIN_MENU_SELECT:'game menu select event',
         GAME:'game event',
         GAME2:'game 2 event'

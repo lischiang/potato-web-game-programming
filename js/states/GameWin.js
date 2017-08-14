@@ -1,14 +1,14 @@
-/* inspired by chapter 10 "GameOver.js" */ 
+/* inspired by chapter 10 "GameWin.js" */ 
 
 (function (window) {
 
     window.game = window.game || {}
 
-    function GameOver() {
+    function GameWin() {
         this.initialize();
     }
 
-    var p = GameOver.prototype = new createjs.Container();
+    var p = GameWin.prototype = new createjs.Container();
 
     p.Container_initialize = p.initialize;
 
@@ -21,11 +21,11 @@
     }
     p.addBG = function () {
         var bg = new createjs.Shape();
-        bg.graphics.beginFill('#9ab1d6').drawRect(0, 0, canvas.width, canvas.height);
+        bg.graphics.beginFill('#fcf8ab').drawRect(0, 0, canvas.width, canvas.height);
         this.addChild(bg);
     }
     p.addMessage = function () {
-        this.titleTxt = new createjs.Text("YOU LOST =(", '40px Arial', '#000');
+        this.titleTxt = new createjs.Text("YOU WON! =D", '40px Arial', '#000');
         this.titleTxt.x = canvas.width / 2;
         this.titleTxt.y = 200;
         this.titleTxt.textAlign = 'center';
@@ -33,7 +33,7 @@
     }
 
     p.addFries = function () {
-        var fries = new createjs.Bitmap('img/fries_billy.png');
+        var fries = new createjs.Bitmap('img/billy_happy.png');
         fries.regX = fries.width / 2;  
         fries.x = 0; // canvas.width / 2;;
         fries.regY = fries.height / 2;
@@ -70,6 +70,6 @@
         this.dispatchEvent(game.GameStateEvents.GAME);
     }
 
-    window.game.GameOver = GameOver;
+    window.game.GameWin = GameWin;
 
 }(window));

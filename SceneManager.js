@@ -49,6 +49,9 @@
             case game.GameStates.GAME_OVER:
                 this.currentGameStateFunction = this.gameStateGameOver;
                 break;
+            case game.GameStates.GAME_WIN:
+                this.currentGameStateFunction = this.gameStateGameWin;
+                break;
         }
     }
     p.onStateEvent = function (e, data) {
@@ -98,7 +101,7 @@
         globalSpeed = 12;   // level 2 speed
         var scene = new game.Game2();
         scene.on(game.GameStateEvents.GAME_OVER, this.onStateEvent, this, false, {state: game.GameStates.GAME_OVER});
-        scene.on(game.GameStateEvents.MAIN_MENU, this.onStateEvent, this, false, {state: game.GameStates.MAIN_MENU});
+        scene.on(game.GameStateEvents.GAME_WIN, this.onStateEvent, this, false, {state: game.GameStates.GAME_WIN});
         stage.addChild(scene);
         stage.removeChild(this.currentScene);
         this.currentScene = scene;
@@ -115,6 +118,16 @@
         createjs.Ticker.on('tick', this.addNewHoles, this);
 
         this.addNewCharacter();      
+    }
+
+    p.gameStateGameWin = function () {
+        var scene = new game.GameWin();
+        stage.addChild(scene);
+        scene.on(game.GameStateEvents.MAIN_MENU, this.onStateEvent, this, false, {state:game.GameStates.MAIN_MENU});
+        scene.on(game.GameStateEvents.GAME, this.onStateEvent, this, false, {state:game.GameStates.GAME});
+        stage.removeChild(this.currentScene);
+        this.currentScene = scene;
+        this.changeState(game.GameStates.RUN_SCENE);
     }
 
     p.gameStateGameOver = function () {
