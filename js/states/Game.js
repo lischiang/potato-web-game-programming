@@ -9,14 +9,13 @@
     var p = Game.prototype = new createjs.Container();
 
     p.Container_initialize = p.initialize;
-    p.lifeCounter = 5;  // number of lives
+    p.lifeCounter = 3;  // number of lives
     p.distanceRun = 0;   // distance already run
     p.statusBoxContainer = null;
     p.environmentContainer = null;
     p.roadContainer = null;
     p.statusBox = null;
     p.distanceStep = 0.001;
-    //environmentSpeed1 = 6; // defining this variable globally (can be read in SceneManager)
     p.xOfLeftEnvironments = -55;
     p.xOfRightEnvironments = 600;
     p.cocineroImg = null;
@@ -120,7 +119,7 @@
                     //generate a new hole in order to continue playing.
 
                     hole = new createjs.Bitmap('img/hole.png')
-                    hole.speed = globalSpeed;    // >>>>>>>>>  this should be environmentSpeed1, but gives bug if changed
+                    hole.speed = globalSpeed;  
                     hole.width = 35;
                     hole.height = 35;
                     var myX = Math.random() * (1 - 0) + 0;
@@ -138,7 +137,6 @@
 
     p.stopPlayer = function (e) {
         e = !e ? window.event : e;
-        //console.log(e);
         switch (e.keyCode) {
             case 37:
                 leftKeyDown = false;
@@ -401,14 +399,13 @@
             }
             // update gums
             len = gums.length;
-            //console.log("gums >>>>>>" + len);
             var myGum;
 
             for (var i = 0; i < len; i++) {
                 myGum = gums[i];
                 myGum.y = myGum.nextY;
 
-                if (myGum.x < character.x + character.width && // >>>>>>>>>>> maybe better give some tollerance
+                if (myGum.x < character.x + character.width && 
                     myGum.x + myGum.width > character.x &&
                     myGum.y < character.y + character.height &&
                     myGum.height + myGum.y > character.y) {
@@ -423,14 +420,13 @@
             }
             // update oils
             len = oils.length;
-            //console.log("oils >>>>>>" + len);
             var myOil;
 
             for (var i = 0; i < len; i++) {
                 myOil = oils[i];
                 myOil.y = myOil.nextY;
 
-                if (myOil.x < character.x + character.width && // >>>>>>>>>>> maybe better give some tollerance
+                if (myOil.x < character.x + character.width && 
                     myOil.x + myOil.width > character.x &&
                     myOil.y < character.y + character.height &&
                     myOil.height + myOil.y > character.y) {
@@ -575,10 +571,10 @@
         }
 
         if (textGame1.alpha > 0) {   // make game message to disappear
-            textGame1.alpha -= 0.03;
+            textGame1.alpha -= 0.02;
         }
         if (textGame2.alpha > 0) {   // make game message to disappear
-            textGame2.alpha -= 0.03;
+            textGame2.alpha -= 0.02;
         }
 
         window.onkeydown = this.movePlayer;
@@ -606,7 +602,7 @@
 
                     //we add one more hole in order to satrt with the cycle
                     hole = new createjs.Bitmap('img/hole.png');
-                    hole.speed = globalSpeed;    // >>>>>>>>>  this should be environmentSpeed1, but gives bug if changed
+                    hole.speed = globalSpeed;  
                     hole.width = 35;
                     hole.height = 35;
                     var myX = Math.random() * (1 - 0) + 0;

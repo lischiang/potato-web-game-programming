@@ -16,7 +16,6 @@
     p.roadContainer = null;   
     p.statusBox = null;
     p.distanceStep = 0.001;
-    //environmentSpeed1 = 6; // defining this variable globally (can be read in SceneManager)
     p.xOfLeftEnvironments = -55;
     p.xOfRightEnvironments = 600;
     p.speedCounter = 300; 
@@ -117,7 +116,7 @@
                     //generate a new hole in order to continue playing.
 
                     hole = new createjs.Bitmap('img/hole.png')
-                    hole.speed = globalSpeed;    // >>>>>>>>>  this should be environmentSpeed1, but gives bug if changed
+                    hole.speed = globalSpeed;    
                     hole.width = 35;
                     hole.height = 35;
                     var myX = Math.random() * (1 - 0) + 0;
@@ -202,41 +201,15 @@
         env1.y = 0;
         env1.speed = globalSpeed;
 
-
-        // env2 = new EnvironmentDesert();
-        // env2.x = this.xOfLeftEnvironments;
-        // env2.y = 256;
-        // env2.speed = globalSpeed;
-
-        // env3 = new EnvironmentDesert();
-        // env3.x = this.xOfLeftEnvironments;
-        // env3.y = 512;
-        // env3.speed = globalSpeed;
-
         // right side
         env4 = new EnvironmentFlowers();
         env4.x = this.xOfRightEnvironments;
         env4.y = 0;
         env4.speed = globalSpeed;
 
-
-        // env5 = new EnvironmentDesert();
-        // env5.x = this.xOfRightEnvironments;
-        // env5.y = 256;
-        // env5.speed = globalSpeed;
-
-        // env6 = new EnvironmentDesert();
-        // env6.x = this.xOfRightEnvironments;
-        // env6.y = 512;
-        // env6.speed = globalSpeed;
-
         // add environments of the initialization to the container
         envs.addChild(env1);
-        // envs.addChild(env2);
-        // envs.addChild(env3);
         envs.addChild(env4);
-        // envs.addChild(env5);
-        // envs.addChild(env6);
     }
 
     p.addEnvironments = function () {
@@ -383,7 +356,7 @@
                 myHole.y = myHole.nextY;
 
                 // check collision
-                if (myHole.x < character.x + character.width && // >>>>>>>>>>> maybe better give some tollerance
+                if (myHole.x < character.x + character.width && 
                     myHole.x + myHole.width > character.x &&
                     myHole.y < character.y + character.height &&
                     myHole.height + myHole.y > character.y) {
@@ -412,7 +385,7 @@
                 myGum = gums[i];
                 myGum.y = myGum.nextY;
 
-                if (myGum.x < character.x + character.width && // >>>>>>>>>>> maybe better give some tollerance
+                if (myGum.x < character.x + character.width && 
                     myGum.x + myGum.width > character.x &&
                     myGum.y < character.y + character.height &&
                     myGum.height + myGum.y > character.y) {
@@ -436,7 +409,7 @@
                 myOil = oils[i];
                 myOil.y = myOil.nextY;
 
-                if (myOil.x < character.x + character.width && // >>>>>>>>>>> maybe better give some tollerance
+                if (myOil.x < character.x + character.width && 
                     myOil.x + myOil.width > character.x &&
                     myOil.y < character.y + character.height &&
                     myOil.height + myOil.y > character.y) {
@@ -578,27 +551,9 @@
         this.updateSpeed();         // update the speed of the objects in the scene
     }
 
-    //  p.removeAllHoles = function () {
-    //     var len = holes.length;
-
-    //     for (var i = 0; i < len; i++) {
-    //         var myHole;
-    //         //if (holes[i] != null) {
-    //             myHole = holes[i];
-                
-    //             holes.splice(i, 1);
-    //             stage.removeChild(myHole);
-                
-    //         //}
-    //     }
-    //     console.log("num of holes: " + holes.length);
-    // }
-
     p.checkGame = function () {
         if (this.distanceRun >= 1)
         {
-            // remove all the chewing gums and oil spots >>>>>>>>>>>>>>>>>>> REMOVE HOLES!!!!!!           
-            //this.removeAllHoles();
             //this is to reset the characters and pedestrian value;
             character = null;
             pedestrian = null;
@@ -617,7 +572,7 @@
         this.eraseOldEnvironments();
         this.togglePause();
 
-        if (this.speedCounter > 300) {  // whene the timer has reached 300, restore the normal speed
+        if (this.speedCounter > 300) {  // when the timer has reached 300, restore the normal speed
             this.normalizeSpeed();
         }
 

@@ -88,11 +88,7 @@
 
         this.changeState(game.GameStates.RUN_SCENE);
 
-        //this.environmentSpeed = environmentSpeed1;  // environmentSpeed1 is a global variable defined in Game
-
         this.cleaningBoard();
-
-        //this.addHoles((Math.random() * (1 - 0) + 0) + 200);
 
         createjs.Ticker.on('tick', this.addNewHoles, this);
 
@@ -111,27 +107,18 @@
         stage.removeChild(this.currentScene);
         this.currentScene = scene;
 
-
         this.changeState(game.GameStates.RUN_SCENE);
 
-        //this.environmentSpeed = environmentSpeed2;   // environmentSpeed2 is a global variable defined in Game2
-
-
-
         this.addHoles((Math.random() * (1 - 0) + 0) + 200);
-
         createjs.Ticker.on('tick', this.addNewHoles, this);
 
         this.addNewCharacter();
 
         createjs.Ticker.on('tick', this.addNewPedestrians, this);
-
-        //this.addPedestrians();
-
-
     }
 
     p.gameStateGame3 = function () {
+        this.cleaningBoard();
         globalSpeed = 10;   // level 2 speed
         var scene = new game.Game3();
         scene.on(game.GameStateEvents.GAME_OVER, this.onStateEvent, this, false, {state: game.GameStates.GAME_OVER});
@@ -141,12 +128,6 @@
         this.currentScene = scene;
 
         this.changeState(game.GameStates.RUN_SCENE);
-
-        //this.environmentSpeed = environmentSpeed2;   // environmentSpeed2 is a global variable defined in Game2
-
-        // remove previous holes
-        //this.removeAllHoles();
-        //stage.removeChild(character);
 
         this.addHoles((Math.random() * (1 - 0) + 0) + 200);
         createjs.Ticker.on('tick', this.addNewHoles, this);
@@ -188,11 +169,32 @@
             }
         }
 
-    }
-    p.addPedestrians = function (mySpeedX) {
+        //erasing all gums from previous stage
 
-        //pedestrian = new createjs.Shape();
-        //pedestrian.graphics.beginFill('#00F').drawRect(0, 0, 40, 40);
+        var len = gums.length;
+        for (var i = 0; i < len; i++) {
+            var myGum;
+            if (gums[0] != null) {
+                myGum = gums[0];
+                gums.splice(0, 1);
+                stage.removeChild(myGum);
+            }
+        }
+
+        //erasing all oils from previous stage
+
+        var len = oils.length;
+        for (var i = 0; i < len; i++) {
+            var myOil;
+            if (oils[0] != null) {
+                myOil = oils[0];
+                oils.splice(0, 1);
+                stage.removeChild(myOil);
+            }
+        }
+    }
+
+    p.addPedestrians = function (mySpeedX) {
         pedestrian = new createjs.Bitmap('img/ped_brocoli.png');
         pedestrian.x = 170;
         pedestrian.y = 0;
@@ -234,9 +236,6 @@
 
     p.addNewCharacter = function () {
         character = new createjs.Bitmap('img/potato_riding1.png')
-        // character = new createjs.Shape();
-        // character.graphics.beginFill('#A00').drawRect(0, 0, 30, 100);
-        //character.name = 'myCharacter';
         character.scaleX = 0.6;
         character.scaleY = 0.6;
         character.x = 400;

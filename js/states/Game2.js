@@ -9,14 +9,13 @@
     var p = Game2.prototype = new createjs.Container();
 
     p.Container_initialize = p.initialize;
-    p.lifeCounter = 8;  // number of lives
+    p.lifeCounter = 5;  // number of lives
     p.distanceRun = 0;  // distance already run
     p.statusBoxContainer = null;
     p.environmentContainer = null;
     p.roadContainer = null;
     p.statusBox = null;
     p.distanceStep = 0.001;
-    //environmentSpeed2 = 10; // defining this variable globally (can be read in SceneManager)
     p.xOfLeftEnvironments = -55;
     p.xOfRightEnvironments = 600;
     p.speedCounter = 300;
@@ -31,8 +30,6 @@
 
         this.createRoadsContainer();
         this.addRoad();
-
-        //this.removeAllHoles();
 
         this.createEnvironmentContainer();
         this.addFirstTimeEnvironments();
@@ -86,7 +83,6 @@
         window.onkeydown = null;
         window.onkeyup = null;
         e = !e ? window.event : e;
-        //console.log(e);
         switch (e.keyCode) {
             case 37:
                 leftKeyDown = true;
@@ -404,9 +400,6 @@
                 }
             }
 
-
-
-
             // update gums
             len = gums.length;
             //console.log("gums >>>>>>" + len);
@@ -416,7 +409,7 @@
                 myGum = gums[i];
                 myGum.y = myGum.nextY;
 
-                if (myGum.x < character.x + character.width && // >>>>>>>>>>> maybe better give some tollerance
+                if (myGum.x < character.x + character.width &&
                     myGum.x + myGum.width > character.x &&
                     myGum.y < character.y + character.height &&
                     myGum.height + myGum.y > character.y) {
@@ -438,7 +431,7 @@
                 myOil = oils[i];
                 myOil.y = myOil.nextY;
 
-                if (myOil.x < character.x + character.width && // >>>>>>>>>>> maybe better give some tollerance
+                if (myOil.x < character.x + character.width && 
                     myOil.x + myOil.width > character.x &&
                     myOil.y < character.y + character.height &&
                     myOil.height + myOil.y > character.y) {
@@ -605,10 +598,10 @@
         }
 
         if (textGame1.alpha > 0) {   // make game message to disappear
-            textGame1.alpha -= 0.03;
+            textGame1.alpha -= 0.02;
         }
         if (textGame2.alpha > 0) {   // make game message to disappear
-            textGame2.alpha -= 0.03;
+            textGame2.alpha -= 0.02;
         }
 
         window.onkeydown = this.movePlayer;
