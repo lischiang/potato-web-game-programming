@@ -64,9 +64,11 @@
         this.addChild(btn);
     }
     p.mainMenu = function (e) {
+        togglePause = false;
         this.dispatchEvent(game.GameStateEvents.MAIN_MENU);
     }
     p.playGame = function (e) {
+        togglePause = false;
         this.dispatchEvent(game.GameStateEvents.GAME);
     }
 

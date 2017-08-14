@@ -90,17 +90,19 @@
 
         //this.environmentSpeed = environmentSpeed1;  // environmentSpeed1 is a global variable defined in Game
 
-        // remove previous holes
-        //this.removeAllHoles();
-        //stage.removeChild(character);
-       
-        this.addHoles((Math.random() * (1 - 0) + 0) + 200);
+        this.cleaningBoard();
+
+        //this.addHoles((Math.random() * (1 - 0) + 0) + 200);
+
         createjs.Ticker.on('tick', this.addNewHoles, this);
 
-        this.addNewCharacter();   
+        this.addNewCharacter();
     }
 
     p.gameStateGame2 = function () {
+        this.cleaningBoard();
+        stage.removeChild(character);
+
         globalSpeed = 8;   // level 2 speed
         var scene = new game.Game2();
         scene.on(game.GameStateEvents.GAME_OVER, this.onStateEvent, this, false, {state: game.GameStates.GAME_OVER});
@@ -109,18 +111,24 @@
         stage.removeChild(this.currentScene);
         this.currentScene = scene;
 
+
         this.changeState(game.GameStates.RUN_SCENE);
 
         //this.environmentSpeed = environmentSpeed2;   // environmentSpeed2 is a global variable defined in Game2
 
-        // remove previous holes
-        //this.removeAllHoles();
-        //stage.removeChild(character);
+
 
         this.addHoles((Math.random() * (1 - 0) + 0) + 200);
+
         createjs.Ticker.on('tick', this.addNewHoles, this);
 
-        this.addNewCharacter();      
+        this.addNewCharacter();
+
+        createjs.Ticker.on('tick', this.addNewPedestrians, this);
+
+        //this.addPedestrians();
+
+
     }
 
     p.gameStateGame3 = function () {
@@ -143,7 +151,7 @@
         this.addHoles((Math.random() * (1 - 0) + 0) + 200);
         createjs.Ticker.on('tick', this.addNewHoles, this);
 
-        this.addNewCharacter();      
+        this.addNewCharacter();
     }
 
     p.gameStateGameWin = function () {
@@ -159,12 +167,70 @@
     p.gameStateGameOver = function () {
         var scene = new game.GameOver();
         stage.addChild(scene);
-        scene.on(game.GameStateEvents.MAIN_MENU, this.onStateEvent, this, false, {state:game.GameStates.MAIN_MENU});
-        scene.on(game.GameStateEvents.GAME, this.onStateEvent, this, false, {state:game.GameStates.GAME});
+        scene.on(game.GameStateEvents.MAIN_MENU, this.onStateEvent, this, false, {state: game.GameStates.MAIN_MENU});
+        scene.on(game.GameStateEvents.GAME, this.onStateEvent, this, false, {state: game.GameStates.GAME});
         stage.removeChild(this.currentScene);
         this.currentScene = scene;
         this.changeState(game.GameStates.RUN_SCENE);
     }
+
+    p.cleaningBoard = function () {
+
+        //erasing all holes from previous stage
+
+        var len = holes.length;
+        for (var i = 0; i < len; i++) {
+            var myHole;
+            if (holes[0] != null) {
+                myHole = holes[0];
+                holes.splice(0, 1);
+                stage.removeChild(myHole);
+            }
+        }
+
+    }
+    p.addPedestrians = function (mySpeedX) {
+
+        //pedestrian = new createjs.Shape();
+        //pedestrian.graphics.beginFill('#00F').drawRect(0, 0, 40, 40);
+        pedestrian = new createjs.Bitmap('img/ped_brocoli.png');
+        pedestrian.x = 170;
+        pedestrian.y = 0;
+        pedestrian.scaleX = .2;
+        pedestrian.scaleY = .2;
+        pedestrian.width = 35;
+        pedestrian.height = 35;
+        pedestrian.speedY = globalSpeed;
+        pedestrian.speedX = mySpeedX;
+        if(Math.random() * (1 - 0) + 0  <= 0.5){
+            createjs.Sound.play('hillBilly');
+
+        }else{
+            createjs.Sound.play('hillBilly2');
+        }
+
+        stage.addChild(pedestrian);
+
+    }
+
+    p.addNewPedestrians = function () {
+        var mySpeedX = Math.random() * (7 - 3) + 3;
+
+        var recreationPoint = Math.random() * (50000 - 600) + 600;
+
+        if (pedestrian == null) {
+            this.addPedestrians(mySpeedX);
+        }
+
+        if (pedestrian.y >= recreationPoint) {
+            stage.removeChild(pedestrian);
+
+            this.addPedestrians(mySpeedX);
+
+        }
+
+    }
+
 
     p.addNewCharacter = function () {
         character = new createjs.Bitmap('img/potato_riding1.png')
@@ -186,12 +252,12 @@
         hole.x = myX;
         hole.scaleX = 0.15;
         hole.scaleY = 0.15;
-        hole.y = -30;
+        hole.y = -40;
         hole.speed = globalSpeed;
-        hole.width = 60;
-        hole.height = 55;
+        hole.width = 35;
+        hole.height = 35;
         holes.push(hole);
-        stage.addChild(hole); 
+        stage.addChild(hole);
     }
 
     p.addGum = function (myX) {
@@ -221,21 +287,25 @@
     }
 
     p.addNewHoles = function () {
+
         var len = holes.length;
-        var myY = Math.random() * (1 - 0) + 0;
-        myY = myY*600;
-        var numberOfSimultaneousHoles = 3;
-        if (holes[0].y >= myY ) {
-            if (len <= numberOfSimultaneousHoles) {
-                var myX = Math.random() * (1 - 0) + 0;
-                myX = myX * 400 + 200;
-                //console.log(myX);
+        if (len > 0) {
+            var myY = Math.random() * (1 - 0) + 0;
+            myY = myY * 600;
+            var numberOfSimultaneousHoles = 3;
+            if (holes[0].y >= myY) {
+                if (len <= numberOfSimultaneousHoles) {
+                    var myX = Math.random() * (1 - 0) + 0;
+                    myX = myX * 400 + 200;
+                    //console.log(myX);
 
-                this.addHoles(myX);
+                    this.addHoles(myX);
+
+                }
             }
-        }
 
-        this.removeHoles();
+            this.removeHoles();
+        }
 
         // add new chewing gums
 
@@ -249,8 +319,8 @@
                 var myXGum = Math.random();
                 myXGum = myXGum * (this.roadWidth-40) + this.environmentWidth;
                 this.addGum(myXGum);
-            }   
-        }  
+            }
+        }
         this.removeGums();
 
         // add new oil spots
@@ -265,8 +335,8 @@
                 var myXOil = Math.random();
                 myXOil = myXOil * (this.roadWidth-40) + this.environmentWidth;
                 this.addOil(myXOil);
-            }   
-        }  
+            }
+        }
         this.removeOils();
 
     }
@@ -282,9 +352,14 @@
                     holes.splice(i, 1);
                     stage.removeChild(myHole);
                 }
+
             }
         }
+
+
     }
+
+
 
     p.removeGums = function () {
         var len = gums.length;
@@ -303,7 +378,6 @@
 
     p.removeOils = function () {
         var len = oils.length;
-
         for (var i = 0; i < len; i++) {
             var myOil;
             if (oils[i] != null) {
@@ -315,23 +389,6 @@
             }
         }
     }
-
-    // p.removeAllHoles = function () {
-    //     var len = holes.length;
-
-    //     for (var i = 0; i < len; i++) {
-    //         var myHole;
-    //         if (holes[i] != null) {
-    //             myHole = holes[i];
-                
-    //             holes.splice(i, 1);
-    //             stage.removeChild(myHole);
-                
-    //         }
-    //     }
-    //     console.log("num of holes: " + holes.length);
-    // }
-
 
     p.gameStateRunScene = function () {
         if (this.currentScene.run) {

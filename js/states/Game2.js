@@ -19,11 +19,11 @@
     //environmentSpeed2 = 10; // defining this variable globally (can be read in SceneManager)
     p.xOfLeftEnvironments = -55;
     p.xOfRightEnvironments = 600;
-    p.speedCounter = 300;  
+    p.speedCounter = 300;
     textGame1 = 0;
-    textGame1.alpha = 0; 
+    textGame1.alpha = 0;
     textGame2 = 0;
-    textGame2.alpha = 0; 
+    textGame2.alpha = 0;
 
 
     p.initialize = function () {
@@ -39,6 +39,19 @@
 
         this.createStatusBoxContainer();
         this.addStatusBox();
+
+        var len = holes.length;
+        for (var i = 0; i < len; i++) {
+            var myHole;
+            if (holes[0] != null) {
+                myHole = holes[0];
+                holes.splice(0, 1);
+                stage.removeChild(myHole);
+            }
+        }
+
+        stage.removeChild(pedestrian);
+        pedestrian = null;
         initialText = this.addMessage("Level 1", stage.canvas.height / 2);
     }
 
@@ -52,38 +65,6 @@
         this.addChild(text);
         return text;
     }
-
-    // p.removeAllHoles = function () {
-    //     var len = holes.length;
-
-    //     for (var i = 0; i < len; i++) {
-    //         var myHole;
-    //         if (holes[i] != null) {
-    //             myHole = holes[i];
-                
-    //             holes.splice(i, 1);
-    //             stage.removeChild(myHole);
-                
-    //         }
-    //     }
-    //     console.log("num of holes: " + holes.length);
-    // }
-
-    // p.removeAllGums = function () {
-    //     var len = gums.length;
-
-    //     for (var i = 0; i < len; i++) {
-    //         var myGum;
-    //         if (gums[i] != null) {
-    //             myGum = gums[i];
-                
-    //             gums.splice(i, 1);
-    //             stage.removeChild(myGum);
-                
-    //         }
-    //     }
-    //     console.log("num of gums: " + gums.length);
-    // }
 
 
     p.createStatusBoxContainer = function () {
@@ -131,6 +112,11 @@
                         }
                     }
 
+                    //cleaning from pedestrians
+
+                    stage.removeChild(pedestrian);
+                    pedestrian = null;
+
                     //generating a new hole in order to continue playing.
 
                     hole = new createjs.Bitmap('img/hole.png')
@@ -141,8 +127,8 @@
                     hole.scaleY = 0.2;
                     //hole.y = 10;
                     hole.speed = globalSpeed;
-                    hole.width = 60;
-                    hole.height = 55;
+                    hole.width = 35;
+                    hole.height = 35;
                     holes.push(hole);
                     stage.addChild(hole);
                 }
@@ -300,7 +286,7 @@
 
         if (!createjs.Ticker.getPaused()) {
             var line, nextY, len, tree, bG, lenGum, lenOil;
-       
+
             len = this.roadContainer.getNumChildren();
             for (var i = 0; i < len; i++) {
                 bG = this.roadContainer.getChildAt(i);
@@ -351,14 +337,25 @@
                 }
             } else if (rightKeyDown && character.x < 600 - character.width) {
                 nextX = character.x + 10;
-            
+
                 character.nextX = nextX;
             }
+
+
+            if (pedestrian != null) {
+
+                pedestrian.nextY = pedestrian.speedY + pedestrian.y;
+
+                pedestrian.nextX = pedestrian.speedX + pedestrian.x;
+            }
+
+
+
 
             // update distance already run
             this.distanceRun += this.distanceStep;
 
-            // update speed counter 
+            // update speed counter
             this.speedCounter += 1;
         }
 
@@ -391,11 +388,12 @@
                     myHole.height + myHole.y > character.y) {
                     // collision detected!
                     console.log("hit! PRESS SPACE BAR TO CONTINUE.");
+                    createjs.Sound.play('splat');
                     this.removeChild(textGame1);
                     this.removeChild(textGame2);
                     textGame1 = this.addMessage('OUCH! ', 250);
                     textGame2 = this.addMessage('(Press space bar to continue)', 350);
-                    
+
                     // update life counter
                     this.lifeCounter -= 1;
 
@@ -403,8 +401,11 @@
 
                     togglePause = true;
 
-                } 
+                }
             }
+
+
+
 
             // update gums
             len = gums.length;
@@ -420,7 +421,7 @@
                     myGum.y < character.y + character.height &&
                     myGum.height + myGum.y > character.y) {
 
-                    // collision with gum detected!                  
+                    // collision with gum detected!
                     this.slowGame();
 
                     // remove gum
@@ -442,9 +443,9 @@
                     myOil.y < character.y + character.height &&
                     myOil.height + myOil.y > character.y) {
 
-                    // collision with oil detected!                  
+                    // collision with oil detected!
                     this.fastGame();
-                    
+
                     // remove oil spot
                     stage.removeChild(myOil);
                 }
@@ -459,8 +460,7 @@
             }
 
             // update distance bar
-            if (this.statusBoxContainer.getNumChildren()>0)
-            {
+            if (this.statusBoxContainer.getNumChildren() > 0) {
                 statusBox = this.statusBoxContainer.getChildAt(0);
                 statusBox.updateBar(this.distanceRun);
             }
@@ -468,7 +468,29 @@
             // update character
             character.x = character.nextX;
 
-            // update stage
+            if (pedestrian != null) {
+                pedestrian.y = pedestrian.nextY;
+                pedestrian.x = pedestrian.nextX;
+
+                //hit test for the pedestrian
+
+                if (pedestrian.x < character.x + character.width &&
+                    pedestrian.x + pedestrian.width > character.x &&
+                    pedestrian.y < character.y + character.height &&
+                    pedestrian.height + pedestrian.y > character.y) {
+                    createjs.Sound.play('splat');
+                    // update life counter
+                    this.lifeCounter -= 1;
+
+                    togglePause = true;
+
+                    this.updateAndCheckGameAfterHit();
+                }
+
+            }
+
+
+
             stage.update();
         }
     }
@@ -479,14 +501,12 @@
     }
     p.updateAndCheckGameAfterHit = function () {
         // update number of lives on the ui
-        if (this.statusBoxContainer.getNumChildren()>0)
-        {
+        if (this.statusBoxContainer.getNumChildren() > 0) {
             statusBox = this.statusBoxContainer.getChildAt(0);
             statusBox.updateLives(this.lifeCounter);
         }
         // check if the player has lost the game
-        if (this.lifeCounter == 0)
-        {
+        if (this.lifeCounter == 0) {
             this.dispatchEvent(game.GameStateEvents.GAME_OVER);
         }
     }
@@ -495,25 +515,25 @@
         // update speed of the holes in the game
         var len = holes.length;
         for (var i = 0; i < len; i++) {
-            
+
             if (holes[i] != null) {
-                holes[i].speed = globalSpeed;    
+                holes[i].speed = globalSpeed;
             }
         }
 
         // update speed of the gums in the game
         len = gums.length;
-        for (var i = 0; i < len; i++) {           
+        for (var i = 0; i < len; i++) {
             if (gums[i] != null) {
-                gums[i].speed = globalSpeed;    
+                gums[i].speed = globalSpeed;
             }
         }
 
         // update speed of the oil spots in the game
         len = oils.length;
-        for (var i = 0; i < len; i++) {           
+        for (var i = 0; i < len; i++) {
             if (oils[i] != null) {
-                oils[i].speed = globalSpeed;    
+                oils[i].speed = globalSpeed;
             }
         }
 
@@ -537,14 +557,14 @@
     p.slowGame = function () {
         globalSpeed = 4;                // set slower speed
         this.distanceStep = 0.0005;     // slow down the distance bar
-        this.speedCounter = 0;          // reset timer for the change of speed 
+        this.speedCounter = 0;          // reset timer for the change of speed
         this.updateSpeed();             // update the speed of the objects in the scene
     }
 
     p.fastGame = function () {
         globalSpeed = 12;               // set faster speed
         this.distanceStep = 0.0015;     // speed up the distance bar
-        this.speedCounter = 0;          // reset timer for the change of speed 
+        this.speedCounter = 0;          // reset timer for the change of speed
         this.updateSpeed();             // update the speed of the objects in the scene
     }
 
@@ -556,16 +576,17 @@
 
 
     p.checkGame = function () {
-        if (this.distanceRun >= 1)
-        {
-            // remove all the chewing gums and oil spots >>>>>>>>>>>>>>>>>>> REMOVE HOLES!!!!!!           
-
+        if (this.distanceRun >= 1) {
             this.dispatchEvent(game.GameStateEvents.GAME3);
+
+            //this is to reset the characters and pedestrian value;
+            character = null;
+            pedestrian = null;
         }
     }
 
     p.run = function () {
-        
+
         this.update();
         this.render();
         this.checkGame();

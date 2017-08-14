@@ -38,6 +38,19 @@
         this.createStatusBoxContainer();
         this.addStatusBox();
         initialText = this.addMessage("Level 3", stage.canvas.height / 2);
+
+        var len = holes.length;
+        for (var i = 0; i < len; i++) {
+            var myHole;
+            if (holes[0] != null) {
+                myHole = holes[0];
+                holes.splice(0, 1);
+                stage.removeChild(myHole);
+            }
+        }
+
+        stage.removeChild(pedestrian);
+        pedestrian = null;
     }
 
     p.addMessage = function (message,y) {
@@ -96,12 +109,17 @@
                         }
                     }
 
+                    //cleaning from pedestrians
+
+                    stage.removeChild(pedestrian);
+                    pedestrian = null;
+
                     //generate a new hole in order to continue playing.
 
                     hole = new createjs.Bitmap('img/hole.png')
                     hole.speed = globalSpeed;    // >>>>>>>>>  this should be environmentSpeed1, but gives bug if changed
-                    hole.width = 60;
-                    hole.height = 55;
+                    hole.width = 35;
+                    hole.height = 35;
                     var myX = Math.random() * (1 - 0) + 0;
                     myX = myX * (400 - hole.width) + 200;
                     hole.x = myX;
@@ -328,6 +346,13 @@
                 character.nextX = nextX;
             }
 
+            if (pedestrian != null) {
+
+                pedestrian.nextY = pedestrian.speedY + pedestrian.y;
+
+                pedestrian.nextX = pedestrian.speedX + pedestrian.x;
+            }
+
             // update distance already run
             this.distanceRun += this.distanceStep;
 
@@ -364,6 +389,7 @@
                     myHole.height + myHole.y > character.y) {
                     // collision detected!
                     console.log("hit! PRESS SPACE BAR TO CONTINUE.");
+                    createjs.Sound.play('splat');
                     this.removeChild(textGame1);
                     this.removeChild(textGame2);
                     textGame1 = this.addMessage('OUCH! ', 250);
@@ -442,6 +468,29 @@
 
             // update character
             character.x = character.nextX;
+
+            if (pedestrian != null) {
+                pedestrian.y = pedestrian.nextY;
+                pedestrian.x = pedestrian.nextX;
+
+                //hit test for the pedestrian
+
+                if (pedestrian.x < character.x + character.width &&
+                    pedestrian.x + pedestrian.width > character.x &&
+                    pedestrian.y < character.y + character.height &&
+                    pedestrian.height + pedestrian.y > character.y) {
+                    createjs.Sound.play('splat');
+                    // update life counter
+                    this.lifeCounter -= 1;
+
+                    togglePause = true;
+
+                    this.updateAndCheckGameAfterHit();
+                }
+
+            }
+
+
 
             // update stage
             stage.update();
@@ -550,7 +599,9 @@
         {
             // remove all the chewing gums and oil spots >>>>>>>>>>>>>>>>>>> REMOVE HOLES!!!!!!           
             //this.removeAllHoles();
-            
+            //this is to reset the characters and pedestrian value;
+            character = null;
+            pedestrian = null;
             this.dispatchEvent(game.GameStateEvents.GAME_WIN);
         }
     }

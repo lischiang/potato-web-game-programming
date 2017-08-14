@@ -34,26 +34,12 @@
     p.addTitle = function () {
         this.titleTxt = new createjs.Text("The Potato Game", '40px Comic Sans MS', '#000');
         this.titleTxt.lineWidth = 3;
-        this.titleTxt.x = canvas.width / 4 * 3; 
+        this.titleTxt.x = canvas.width / 4 * 3;
         this.titleTxt.y = canvas.height / 3;
         this.titleTxt.textAlign = 'center';
         this.addChild(this.titleTxt);
     }
-    //p.addOrbs = function () {
-    //    var i, orb;
-    //    var orbContainer = new createjs.Container();
-    //    var numOrbs = 5;
-    //    var orbSize = 20;
-    //    var orbPadding = 10;
-    //    var orbsPosition = 300;
-    //    for (i = 0; i < numOrbs; i++) {
-    //        orb = new PulsingOrb('#FFF', orbSize);
-    //        orb.x = i * ((orbSize * 2) + orbPadding);
-    //        orbContainer.addChild(orb);
-    //    }
-    //    orbContainer.x = orbContainer.y = orbsPosition;
-    //    this.addChild(orbContainer);
-    //}
+
     p.addButton = function () {
         var btn, event;
         btn = new ui.SimpleButton('Start');
@@ -61,12 +47,14 @@
         btn.regX = btn.width / 2;
         btn.x = canvas.width / 4 * 3;
         btn.y = 380;
-        btn.setButton({ upColor: 'FF0000', color: '#FFF', borderColor: '#FFF', overColor: '#900' });
+        btn.setButton({upColor: 'FF0000', color: '#FFF', borderColor: '#FFF', overColor: '#900'});
         this.addChild(btn);
     }
     p.showInstructions = function (e) {
+
         this.dispatchEvent(game.GameStateEvents.INSTRUCTIONS);
     }
+
     p.run = function () {
         this.titleTxt.alpha = Math.cos(this.count++ * 0.1) * 0.4 + 0.6;
     }

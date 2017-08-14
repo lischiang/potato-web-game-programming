@@ -7,7 +7,6 @@
     <script src="js/lib/soundjs-0.5.2.min.js"></script>
     <script src="js/lib/preloadjs-0.4.1.min.js"></script>
     <meta charset="UTF-8">
-    
     <script src="SceneManager.js"></script>
     <script src="js/states/Game.js"></script>
     <script src="js/states/Game2.js"></script>
@@ -52,12 +51,35 @@
     var oils = [];
     var oil;
     var togglePause = false;
+    var pedestrian;
+    var pedestrians = [];
+    var cocineroVoice;
     var globalSpeed = 6;
 
 
     function init() {
         window.game = window.game || {};
+
+        if (!createjs.Sound.initializeDefaultPlugins()) {return;}
+
+
+
         game.main = new game.SceneManager();
+
+        var audioPath = "sounds/";
+        var sounds = [
+            {id:"laughing", src:"old_guy_laugh.ogg"},
+            {id:"gotcha", src:"im_gonna_gotcha.ogg"},
+            {id:"gotcha_laugh", src: "old_guy_laugh_gotcha.ogg"},
+            {id:"backGround", src:"bg_music.ogg"},
+            {id:"hillBilly", src:"hill_billy_laugh.ogg"},
+            {id:"hillBilly2", src: "hill_billy2_laugh.ogg"},
+            {id:"splat", src:"splat.ogg"}
+        ];
+
+        //createjs.Sound.addEventListener("fileload", handleLoad);
+        createjs.Sound.registerManifest(sounds, audioPath);
     }
+
 </script>
 </html>

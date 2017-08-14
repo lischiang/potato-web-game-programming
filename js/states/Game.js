@@ -13,17 +13,22 @@
     p.distanceRun = 0;   // distance already run
     p.statusBoxContainer = null;
     p.environmentContainer = null;
-    p.roadContainer = null;   
+    p.roadContainer = null;
     p.statusBox = null;
     p.distanceStep = 0.001;
     //environmentSpeed1 = 6; // defining this variable globally (can be read in SceneManager)
     p.xOfLeftEnvironments = -55;
     p.xOfRightEnvironments = 600;
+    p.cocineroImg = null;
+    p.counterCocinero = 0;
+    p.cocineroEnabled = false;
+    p.timeforCocineroDisplay = 10;
+    p.timeCocineroOnAir = 0;
     p.speedCounter = 300;
     textGame1 = 0;
-    textGame1.alpha = 0; 
+    textGame1.alpha = 0;
     textGame2 = 0;
-    textGame2.alpha = 0; 
+    textGame2.alpha = 0;
 
 
     p.initialize = function () {
@@ -37,6 +42,22 @@
 
         this.createStatusBoxContainer();
         this.addStatusBox();
+        this.addCocineroImg();
+        createjs.Sound.stop("backGround");
+        cocineroVoice = createjs.Sound.play('gotcha_laugh');
+
+        createjs.Sound.play("backGround");
+
+    }
+
+    p.addCocineroImg = function () {
+        this.cocineroImg = new createjs.Bitmap('img/Cocinero.png');
+        this.cocineroImg.scaleX = 1;
+        this.cocineroImg.scaleY = 1;
+        this.cocineroImg.x = 290;
+        this.cocineroImg.y = 100;
+        this.addChild(this.cocineroImg);
+
         initialText = this.addMessage("Level 1", stage.canvas.height / 2);
     }
 
@@ -100,14 +121,14 @@
 
                     hole = new createjs.Bitmap('img/hole.png')
                     hole.speed = globalSpeed;    // >>>>>>>>>  this should be environmentSpeed1, but gives bug if changed
-                    hole.width = 60;
-                    hole.height = 55;
+                    hole.width = 35;
+                    hole.height = 35;
                     var myX = Math.random() * (1 - 0) + 0;
                     myX = myX * (400 - hole.width) + 200;
                     hole.x = myX;
                     hole.scaleX = 0.15;
                     hole.scaleY = 0.15;
-                    //hole.y = 10;  
+                    hole.y = -40;
                     holes.push(hole);
                     stage.addChild(hole);
                 }
@@ -331,7 +352,7 @@
             // update distance already run
             this.distanceRun += this.distanceStep;
 
-            // update speed counter 
+            // update speed counter
             this.speedCounter += 1;
         }
 
@@ -364,6 +385,7 @@
                     myHole.height + myHole.y > character.y) {
                     // collision detected!
                     console.log("hit! PRESS SPACE BAR TO CONTINUE.");
+                    createjs.Sound.play('splat');
                     this.removeChild(textGame1);
                     this.removeChild(textGame2);
                     textGame1 = this.addMessage('OUCH! ', 250);
@@ -374,9 +396,9 @@
                     this.updateAndCheckGameAfterHit();
 
                     togglePause = true;
+
                 }
             }
-
             // update gums
             len = gums.length;
             //console.log("gums >>>>>>" + len);
@@ -391,14 +413,14 @@
                     myGum.y < character.y + character.height &&
                     myGum.height + myGum.y > character.y) {
 
-                    // collision with gum detected!                  
+                    // collision with gum detected!
                     this.slowGame();
 
                     // remove gum
                     stage.removeChild(myGum);
                 }
-            }
 
+            }
             // update oils
             len = oils.length;
             //console.log("oils >>>>>>" + len);
@@ -412,14 +434,16 @@
                     myOil.x + myOil.width > character.x &&
                     myOil.y < character.y + character.height &&
                     myOil.height + myOil.y > character.y) {
- 
-                    // collision with oil detected!                  
+
+                    // collision with oil detected!
                     this.fastGame();
-                    
+
                     // remove oil spot
                     stage.removeChild(myOil);
                 }
             }
+
+
 
             // update environment
             var env;
@@ -430,14 +454,14 @@
             }
 
             // update distance bar
-            if (this.statusBoxContainer.getNumChildren()>0)
-            {
+            if (this.statusBoxContainer.getNumChildren() > 0) {
                 statusBox = this.statusBoxContainer.getChildAt(0);
                 statusBox.updateBar(this.distanceRun);
             }
 
             // update character
             character.x = character.nextX;
+
 
             // update stage
             stage.update();
@@ -450,14 +474,12 @@
     }
     p.updateAndCheckGameAfterHit = function () {
         // update number of lives on the ui
-        if (this.statusBoxContainer.getNumChildren()>0)
-        {
+        if (this.statusBoxContainer.getNumChildren() > 0) {
             statusBox = this.statusBoxContainer.getChildAt(0);
             statusBox.updateLives(this.lifeCounter);
         }
         // check if the player has lost the game
-        if (this.lifeCounter == 0)
-        {
+        if (this.lifeCounter == 0) {
             this.dispatchEvent(game.GameStateEvents.GAME_OVER);
         }
     }
@@ -466,25 +488,25 @@
         // update speed of the holes in the game
         var len = holes.length;
         for (var i = 0; i < len; i++) {
-            
+
             if (holes[i] != null) {
-                holes[i].speed = globalSpeed;    
+                holes[i].speed = globalSpeed;
             }
         }
 
         // update speed of the gums in the game
         len = gums.length;
-        for (var i = 0; i < len; i++) {           
+        for (var i = 0; i < len; i++) {
             if (gums[i] != null) {
-                gums[i].speed = globalSpeed;    
+                gums[i].speed = globalSpeed;
             }
         }
 
         // update speed of the oil spots in the game
         len = oils.length;
-        for (var i = 0; i < len; i++) {           
+        for (var i = 0; i < len; i++) {
             if (oils[i] != null) {
-                oils[i].speed = globalSpeed;    
+                oils[i].speed = globalSpeed;
             }
         }
 
@@ -508,14 +530,14 @@
     p.slowGame = function () {
         globalSpeed = 3;                // set slower speed
         this.distanceStep = 0.0005;     // slow down the distance bar
-        this.speedCounter = 0;          // reset timer for the change of speed 
+        this.speedCounter = 0;          // reset timer for the change of speed
         this.updateSpeed();             // update the speed of the objects in the scene
     }
 
     p.fastGame = function () {
         globalSpeed = 9;               // set faster speed
         this.distanceStep = 0.0015;     // speed up the distance bar
-        this.speedCounter = 0;          // reset timer for the change of speed 
+        this.speedCounter = 0;          // reset timer for the change of speed
         this.updateSpeed();             // update the speed of the objects in the scene
     }
 
@@ -525,34 +547,16 @@
         this.updateSpeed();         // update the speed of the objects in the scene
     }
 
-    //  p.removeAllHoles = function () {
-    //     var len = holes.length;
 
-    //     for (var i = 0; i < len; i++) {
-    //         var myHole;
-    //         //if (holes[i] != null) {
-    //             myHole = holes[i];
-                
-    //             holes.splice(i, 1);
-    //             stage.removeChild(myHole);
-                
-    //         //}
-    //     }
-    //     console.log("num of holes: " + holes.length);
-    // }
 
     p.checkGame = function () {
-        if (this.distanceRun >= 1)
-        {
-            // remove all the chewing gums and oil spots >>>>>>>>>>>>>>>>>>> REMOVE HOLES!!!!!!           
-            //this.removeAllHoles();
-            
+        if (this.distanceRun >= 1) {
             this.dispatchEvent(game.GameStateEvents.GAME2);
         }
     }
 
     p.run = function () {
-        
+
         this.update();
         this.render();
         this.checkGame();
@@ -579,6 +583,46 @@
 
         window.onkeydown = this.movePlayer;
         window.onkeyup = this.stopPlayer;
+
+        this.counterCocinero = this.counterCocinero + 1;
+
+        if (this.timeCocineroOnAir <= this.timeforCocineroDisplay) {
+
+            if (this.counterCocinero >= 15) {
+
+                if (this.cocineroEnabled) {
+                    this.cocineroImg.alpha = 1;
+                } else {
+                    this.cocineroImg.alpha = 0;
+                    this.timeCocineroOnAir = 1 + this.timeCocineroOnAir;
+                }
+
+
+                this.cocineroEnabled = !this.cocineroEnabled;
+                this.counterCocinero = 0;
+                this.distanceRun = 0;
+
+                if (this.timeCocineroOnAir === this.timeforCocineroDisplay) {
+
+                    //we add one more hole in order to satrt with the cycle
+                    hole = new createjs.Bitmap('img/hole.png');
+                    hole.speed = globalSpeed;    // >>>>>>>>>  this should be environmentSpeed1, but gives bug if changed
+                    hole.width = 35;
+                    hole.height = 35;
+                    var myX = Math.random() * (1 - 0) + 0;
+                    myX = myX * (400 - hole.width) + 200;
+                    hole.x = myX;
+                    hole.scaleX = 0.15;
+                    hole.scaleY = 0.15;
+                    hole.y = -40;
+                    holes.push(hole);
+                    stage.addChild(hole);
+
+                }
+            }
+        }
+
+
     }
 
     window.game.Game = Game;
