@@ -2,14 +2,14 @@
 
     window.game = window.game || {}
 
-    function Game() {
+    function Game3() {
         this.initialize();
     }
 
-    var p = Game.prototype = new createjs.Container();
+    var p = Game3.prototype = new createjs.Container();
 
     p.Container_initialize = p.initialize;
-    p.lifeCounter = 5;  // number of lives
+    p.lifeCounter = 8;  // number of lives
     p.distanceRun = 0;   // distance already run
     p.statusBoxContainer = null;
     p.environmentContainer = null;
@@ -19,11 +19,11 @@
     //environmentSpeed1 = 6; // defining this variable globally (can be read in SceneManager)
     p.xOfLeftEnvironments = -55;
     p.xOfRightEnvironments = 600;
-    p.speedCounter = 300;
+    p.speedCounter = 300; 
     textGame1 = 0;
     textGame1.alpha = 0; 
     textGame2 = 0;
-    textGame2.alpha = 0; 
+    textGame2.alpha = 0;  
 
 
     p.initialize = function () {
@@ -37,7 +37,7 @@
 
         this.createStatusBoxContainer();
         this.addStatusBox();
-        initialText = this.addMessage("Level 1", stage.canvas.height / 2);
+        initialText = this.addMessage("Level 3", stage.canvas.height / 2);
     }
 
     p.addMessage = function (message,y) {
@@ -179,59 +179,59 @@
         var envs = this.environmentContainer;
 
         // left side
-        env1 = new EnvironmentDesert();
+        env1 = new EnvironmentFlowers();
         env1.x = this.xOfLeftEnvironments;
         env1.y = 0;
         env1.speed = globalSpeed;
 
 
-        env2 = new EnvironmentDesert();
-        env2.x = this.xOfLeftEnvironments;
-        env2.y = 256;
-        env2.speed = globalSpeed;
+        // env2 = new EnvironmentDesert();
+        // env2.x = this.xOfLeftEnvironments;
+        // env2.y = 256;
+        // env2.speed = globalSpeed;
 
-        env3 = new EnvironmentDesert();
-        env3.x = this.xOfLeftEnvironments;
-        env3.y = 512;
-        env3.speed = globalSpeed;
+        // env3 = new EnvironmentDesert();
+        // env3.x = this.xOfLeftEnvironments;
+        // env3.y = 512;
+        // env3.speed = globalSpeed;
 
         // right side
-        env4 = new EnvironmentDesert();
+        env4 = new EnvironmentFlowers();
         env4.x = this.xOfRightEnvironments;
         env4.y = 0;
         env4.speed = globalSpeed;
 
 
-        env5 = new EnvironmentDesert();
-        env5.x = this.xOfRightEnvironments;
-        env5.y = 256;
-        env5.speed = globalSpeed;
+        // env5 = new EnvironmentDesert();
+        // env5.x = this.xOfRightEnvironments;
+        // env5.y = 256;
+        // env5.speed = globalSpeed;
 
-        env6 = new EnvironmentDesert();
-        env6.x = this.xOfRightEnvironments;
-        env6.y = 512;
-        env6.speed = globalSpeed;
+        // env6 = new EnvironmentDesert();
+        // env6.x = this.xOfRightEnvironments;
+        // env6.y = 512;
+        // env6.speed = globalSpeed;
 
         // add environments of the initialization to the container
         envs.addChild(env1);
-        envs.addChild(env2);
-        envs.addChild(env3);
+        // envs.addChild(env2);
+        // envs.addChild(env3);
         envs.addChild(env4);
-        envs.addChild(env5);
-        envs.addChild(env6);
+        // envs.addChild(env5);
+        // envs.addChild(env6);
     }
 
     p.addEnvironments = function () {
         var envLeft, envRight;
         var envs = this.environmentContainer;
-        var yOfNewEnvironments = -256 + globalSpeed;
+        var yOfNewEnvironments = -640 + globalSpeed;
 
-        envLeft = new EnvironmentDesert();
+        envLeft = new EnvironmentFlowers();
         envLeft.x = this.xOfLeftEnvironments;
         envLeft.y = yOfNewEnvironments;
         envLeft.speed = globalSpeed;
 
-        envRight = new EnvironmentDesert();
+        envRight = new EnvironmentFlowers();
         envRight.x = this.xOfRightEnvironments;
         envRight.y = yOfNewEnvironments;
         envRight.speed = globalSpeed;
@@ -391,6 +391,8 @@
                     myGum.y < character.y + character.height &&
                     myGum.height + myGum.y > character.y) {
 
+                    this.addMessage("A Chewing Gum!");
+
                     // collision with gum detected!                  
                     this.slowGame();
 
@@ -412,7 +414,9 @@
                     myOil.x + myOil.width > character.x &&
                     myOil.y < character.y + character.height &&
                     myOil.height + myOil.y > character.y) {
- 
+
+                    this.addMessage("It's slippery!");
+
                     // collision with oil detected!                  
                     this.fastGame();
                     
@@ -506,21 +510,21 @@
     }
 
     p.slowGame = function () {
-        globalSpeed = 3;                // set slower speed
+        globalSpeed = 7;                // set slower speed
         this.distanceStep = 0.0005;     // slow down the distance bar
         this.speedCounter = 0;          // reset timer for the change of speed 
         this.updateSpeed();             // update the speed of the objects in the scene
     }
 
     p.fastGame = function () {
-        globalSpeed = 9;               // set faster speed
+        globalSpeed = 13;               // set faster speed
         this.distanceStep = 0.0015;     // speed up the distance bar
         this.speedCounter = 0;          // reset timer for the change of speed 
         this.updateSpeed();             // update the speed of the objects in the scene
     }
 
     p.normalizeSpeed = function () {
-        globalSpeed = 6;            // restore normal speed of the level
+        globalSpeed = 10;            // restore normal speed of the level
         this.distanceStep = 0.001;  // restore distance bar speed
         this.updateSpeed();         // update the speed of the objects in the scene
     }
@@ -547,7 +551,7 @@
             // remove all the chewing gums and oil spots >>>>>>>>>>>>>>>>>>> REMOVE HOLES!!!!!!           
             //this.removeAllHoles();
             
-            this.dispatchEvent(game.GameStateEvents.GAME2);
+            this.dispatchEvent(game.GameStateEvents.GAME_WIN);
         }
     }
 
@@ -567,7 +571,7 @@
         }
 
         if (initialText.alpha > 0) {   // make inizial message to disappear
-            initialText.alpha -= 0.01;
+            initialText.alpha -= 0.02;
         }
 
         if (textGame1.alpha > 0) {   // make game message to disappear
@@ -581,6 +585,6 @@
         window.onkeyup = this.stopPlayer;
     }
 
-    window.game.Game = Game;
+    window.game.Game3 = Game3;
 
 }(window));

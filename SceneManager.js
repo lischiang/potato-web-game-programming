@@ -17,6 +17,9 @@
     p.currentScene;
     p.count = 0;
     p.environmentSpeed;
+    p.roadWidth = 400;
+    p.roadLenght = 600;
+    p.environmentWidth = 200;
 
     p.initialize = function () {
         canvas = document.getElementById('canvas');
@@ -40,11 +43,17 @@
             case game.GameStates.GAME2:
                 this.currentGameStateFunction = this.gameStateGame2;
                 break;
+            case game.GameStates.GAME3:
+                this.currentGameStateFunction = this.gameStateGame3;
+                break;
             case game.GameStates.RUN_SCENE:
                 this.currentGameStateFunction = this.gameStateRunScene;
                 break;
             case game.GameStates.GAME_OVER:
                 this.currentGameStateFunction = this.gameStateGameOver;
+                break;
+            case game.GameStates.GAME_WIN:
+                this.currentGameStateFunction = this.gameStateGameWin;
                 break;
         }
     }
@@ -69,6 +78,7 @@
         this.changeState(game.GameStates.RUN_SCENE);
     }
     p.gameStateGame = function () {
+        globalSpeed = 6;    // level 1 speed
         var scene = new game.Game();
         scene.on(game.GameStateEvents.GAME2, this.onStateEvent, this, false, {state: game.GameStates.GAME2});
         scene.on(game.GameStateEvents.GAME_OVER, this.onStateEvent, this, false, {state: game.GameStates.GAME_OVER});
@@ -78,30 +88,72 @@
 
         this.changeState(game.GameStates.RUN_SCENE);
 
-        this.environmentSpeed = environmentSpeed1;  // environmentSpeed1 is a global variable defined in Game
+        //this.environmentSpeed = environmentSpeed1;  // environmentSpeed1 is a global variable defined in Game
 
+        // remove previous holes
+        //this.removeAllHoles();
+        //stage.removeChild(character);
+       
         this.addHoles((Math.random() * (1 - 0) + 0) + 200);
         createjs.Ticker.on('tick', this.addNewHoles, this);
 
-        this.addNewCharacter();
+        this.addNewCharacter();   
     }
 
     p.gameStateGame2 = function () {
+        globalSpeed = 8;   // level 2 speed
         var scene = new game.Game2();
         scene.on(game.GameStateEvents.GAME_OVER, this.onStateEvent, this, false, {state: game.GameStates.GAME_OVER});
-        scene.on(game.GameStateEvents.MAIN_MENU, this.onStateEvent, this, false, {state: game.GameStates.MAIN_MENU});
+        scene.on(game.GameStateEvents.GAME3, this.onStateEvent, this, false, {state: game.GameStates.GAME3});
         stage.addChild(scene);
         stage.removeChild(this.currentScene);
         this.currentScene = scene;
 
         this.changeState(game.GameStates.RUN_SCENE);
 
-        this.environmentSpeed = environmentSpeed2;   // environmentSpeed2 is a global variable defined in Game2
+        //this.environmentSpeed = environmentSpeed2;   // environmentSpeed2 is a global variable defined in Game2
+
+        // remove previous holes
+        //this.removeAllHoles();
+        //stage.removeChild(character);
 
         this.addHoles((Math.random() * (1 - 0) + 0) + 200);
         createjs.Ticker.on('tick', this.addNewHoles, this);
 
         this.addNewCharacter();      
+    }
+
+    p.gameStateGame3 = function () {
+        globalSpeed = 10;   // level 2 speed
+        var scene = new game.Game3();
+        scene.on(game.GameStateEvents.GAME_OVER, this.onStateEvent, this, false, {state: game.GameStates.GAME_OVER});
+        scene.on(game.GameStateEvents.GAME_WIN, this.onStateEvent, this, false, {state: game.GameStates.GAME_WIN});
+        stage.addChild(scene);
+        stage.removeChild(this.currentScene);
+        this.currentScene = scene;
+
+        this.changeState(game.GameStates.RUN_SCENE);
+
+        //this.environmentSpeed = environmentSpeed2;   // environmentSpeed2 is a global variable defined in Game2
+
+        // remove previous holes
+        //this.removeAllHoles();
+        //stage.removeChild(character);
+
+        this.addHoles((Math.random() * (1 - 0) + 0) + 200);
+        createjs.Ticker.on('tick', this.addNewHoles, this);
+
+        this.addNewCharacter();      
+    }
+
+    p.gameStateGameWin = function () {
+        var scene = new game.GameWin();
+        stage.addChild(scene);
+        scene.on(game.GameStateEvents.MAIN_MENU, this.onStateEvent, this, false, {state:game.GameStates.MAIN_MENU});
+        scene.on(game.GameStateEvents.GAME, this.onStateEvent, this, false, {state:game.GameStates.GAME});
+        stage.removeChild(this.currentScene);
+        this.currentScene = scene;
+        this.changeState(game.GameStates.RUN_SCENE);
     }
 
     p.gameStateGameOver = function () {
@@ -115,41 +167,64 @@
     }
 
     p.addNewCharacter = function () {
-        character = new createjs.Shape();
-        character.graphics.beginFill('#A00').drawRect(0, 0, 30, 100);
+        character = new createjs.Bitmap('img/potato_riding1.png')
+        // character = new createjs.Shape();
+        // character.graphics.beginFill('#A00').drawRect(0, 0, 30, 100);
         //character.name = 'myCharacter';
+        character.scaleX = 0.6;
+        character.scaleY = 0.6;
         character.x = 400;
         character.y = 450;
         character.width = 30;
-        character.height = 100;
+        character.height = 80;
         character.nextX = 400
         stage.addChild(character);
     }
 
     p.addHoles = function (myX) {
-
-        //var hole = new createjs.Shape();
-        //hole = new createjs.Shape();
-        //hole.graphics.beginFill('#000').drawRect(0, 0, 10, 10);
-
         hole = new createjs.Bitmap('img/hole.png')
         hole.x = myX;
-        hole.scaleX = 0.2;
-        hole.scaleY = 0.2;
-        //hole.y = 10;
-        hole.speed = this.environmentSpeed;
+        hole.scaleX = 0.15;
+        hole.scaleY = 0.15;
+        hole.y = -30;
+        hole.speed = globalSpeed;
         hole.width = 60;
         hole.height = 55;
         holes.push(hole);
-        stage.addChild(hole);
+        stage.addChild(hole); 
+    }
 
+    p.addGum = function (myX) {
+        gum = new createjs.Bitmap('img/gum.png')
+        gum.x = myX;
+        gum.scaleX = 0.15;
+        gum.scaleY = 0.15;
+        gum.y = -35;
+        gum.speed = globalSpeed;
+        gum.width = 35;
+        gum.height = 35;
+        gums.push(gum);
+        stage.addChild(gum);
+    }
+
+    p.addOil = function (myX) {
+        oil = new createjs.Bitmap('img/oil.png')
+        oil.x = myX;
+        oil.scaleX = 0.2;
+        oil.scaleY = 0.2;
+        oil.y = -35;
+        oil.speed = globalSpeed;
+        oil.width = 35;
+        oil.height = 35;
+        oils.push(oil);
+        stage.addChild(oil);
     }
 
     p.addNewHoles = function () {
         var len = holes.length;
         var myY = Math.random() * (1 - 0) + 0;
         myY = myY*600;
-        var numberOfSimultaneousHoles = 4;
+        var numberOfSimultaneousHoles = 3;
         if (holes[0].y >= myY ) {
             if (len <= numberOfSimultaneousHoles) {
                 var myX = Math.random() * (1 - 0) + 0;
@@ -157,18 +232,47 @@
                 //console.log(myX);
 
                 this.addHoles(myX);
-
             }
         }
 
         this.removeHoles();
 
+        // add new chewing gums
+
+        len = gums.length;
+        var random = Math.random() * 1000 // random num, >=0 and <=1000
+        random = random.toFixed(0);     // round the number to have 0 decimal numbers
+        var numberOfSimultaneousGums = 1;
+
+        if (random % 100 == 0){
+            if (len < numberOfSimultaneousGums) {
+                var myXGum = Math.random();
+                myXGum = myXGum * (this.roadWidth-40) + this.environmentWidth;
+                this.addGum(myXGum);
+            }   
+        }  
+        this.removeGums();
+
+        // add new oil spots
+
+        len = oils.length;
+        random = Math.random() * 1000   // random num, >=0 and <=1000
+        random = random.toFixed(0);     // round the number to have 0 decimal numbers
+        var numberOfSimultaneousOils = 1;
+
+        if (random % 100 == 0){
+            if (len < numberOfSimultaneousOils) {
+                var myXOil = Math.random();
+                myXOil = myXOil * (this.roadWidth-40) + this.environmentWidth;
+                this.addOil(myXOil);
+            }   
+        }  
+        this.removeOils();
 
     }
 
     p.removeHoles = function () {
         var len = holes.length;
-
 
         for (var i = 0; i < len; i++) {
             var myHole;
@@ -178,12 +282,56 @@
                     holes.splice(i, 1);
                     stage.removeChild(myHole);
                 }
-
             }
         }
-
-
     }
+
+    p.removeGums = function () {
+        var len = gums.length;
+
+        for (var i = 0; i < len; i++) {
+            var myGum;
+            if (gums[i] != null) {
+                myGum = gums[i];
+                if (myGum.y >= this.roadLenght) {
+                    gums.splice(i, 1);
+                    stage.removeChild(myGum);
+                }
+            }
+        }
+    }
+
+    p.removeOils = function () {
+        var len = oils.length;
+
+        for (var i = 0; i < len; i++) {
+            var myOil;
+            if (oils[i] != null) {
+                myOil = oils[i];
+                if (myOil.y >= this.roadLenght) {
+                    oils.splice(i, 1);
+                    stage.removeChild(myOil);
+                }
+            }
+        }
+    }
+
+    // p.removeAllHoles = function () {
+    //     var len = holes.length;
+
+    //     for (var i = 0; i < len; i++) {
+    //         var myHole;
+    //         if (holes[i] != null) {
+    //             myHole = holes[i];
+                
+    //             holes.splice(i, 1);
+    //             stage.removeChild(myHole);
+                
+    //         }
+    //     }
+    //     console.log("num of holes: " + holes.length);
+    // }
+
 
     p.gameStateRunScene = function () {
         if (this.currentScene.run) {
