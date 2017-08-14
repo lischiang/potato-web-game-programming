@@ -43,6 +43,9 @@
             case game.GameStates.GAME2:
                 this.currentGameStateFunction = this.gameStateGame2;
                 break;
+            case game.GameStates.GAME3:
+                this.currentGameStateFunction = this.gameStateGame3;
+                break;
             case game.GameStates.RUN_SCENE:
                 this.currentGameStateFunction = this.gameStateRunScene;
                 break;
@@ -75,7 +78,7 @@
         this.changeState(game.GameStates.RUN_SCENE);
     }
     p.gameStateGame = function () {
-        globalSpeed = 8;    // level 1 speed
+        globalSpeed = 6;    // level 1 speed
         var scene = new game.Game();
         scene.on(game.GameStateEvents.GAME2, this.onStateEvent, this, false, {state: game.GameStates.GAME2});
         scene.on(game.GameStateEvents.GAME_OVER, this.onStateEvent, this, false, {state: game.GameStates.GAME_OVER});
@@ -98,8 +101,31 @@
     }
 
     p.gameStateGame2 = function () {
-        globalSpeed = 12;   // level 2 speed
+        globalSpeed = 8;   // level 2 speed
         var scene = new game.Game2();
+        scene.on(game.GameStateEvents.GAME_OVER, this.onStateEvent, this, false, {state: game.GameStates.GAME_OVER});
+        scene.on(game.GameStateEvents.GAME3, this.onStateEvent, this, false, {state: game.GameStates.GAME3});
+        stage.addChild(scene);
+        stage.removeChild(this.currentScene);
+        this.currentScene = scene;
+
+        this.changeState(game.GameStates.RUN_SCENE);
+
+        //this.environmentSpeed = environmentSpeed2;   // environmentSpeed2 is a global variable defined in Game2
+
+        // remove previous holes
+        //this.removeAllHoles();
+        //stage.removeChild(character);
+
+        this.addHoles((Math.random() * (1 - 0) + 0) + 200);
+        createjs.Ticker.on('tick', this.addNewHoles, this);
+
+        this.addNewCharacter();      
+    }
+
+    p.gameStateGame3 = function () {
+        globalSpeed = 10;   // level 2 speed
+        var scene = new game.Game3();
         scene.on(game.GameStateEvents.GAME_OVER, this.onStateEvent, this, false, {state: game.GameStates.GAME_OVER});
         scene.on(game.GameStateEvents.GAME_WIN, this.onStateEvent, this, false, {state: game.GameStates.GAME_WIN});
         stage.addChild(scene);
